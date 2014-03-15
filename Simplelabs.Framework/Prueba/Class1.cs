@@ -8,5 +8,6 @@ namespace Simplelabs.Framework.Prueba
 {
     class Class1
     {
+        private int loco { get; set; }
     }
 }
