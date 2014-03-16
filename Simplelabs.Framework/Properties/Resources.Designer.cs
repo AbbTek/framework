@@ -77,5 +77,14 @@ namespace Simplelabs.Framework.Properties {
                 return ResourceManager.GetString("PersistenceErrorNotCreateSessionManager", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No existe un sesión de NHibernate en el contexto actual.
+        /// </summary>
+        internal static string PersistenceErrorNotSession {
+            get {
+                return ResourceManager.GetString("PersistenceErrorNotSession", resourceCulture);
+            }
+        }
     }
 }

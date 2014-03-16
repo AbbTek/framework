@@ -43,12 +43,32 @@ namespace Simplelabs.Framework.Persistence.NHibernate
 
         public static ISession GetSession()
         {
-            return GetSession(defaultSession);
+            return GetSession(defaultSession, null);
         }
 
         public static ISession GetSession(string name)
         {
-            return managers[name].GetSession();
+            return GetSession(name, null);
+        }
+
+        public static ISession GetSession(IInterceptor interceptor)
+        {
+            return GetSession(defaultSession, interceptor);
+        }
+
+        public static ISession GetSession(string name, IInterceptor interceptor)
+        {
+            return managers[name].GetSession(interceptor);
+        }
+
+        public static global::NHibernate.Cfg.Configuration GetCurrentConfiguration()
+        {
+            return GetCurrentConfiguration(defaultSession);
+        }
+
+        public static global::NHibernate.Cfg.Configuration GetCurrentConfiguration(string name)
+        {
+            return AbstractSessionManager.cfgs[name];
         }
     }
 }

@@ -63,8 +63,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DomainMap\PersonaMap.cs" />
+    <Compile Include="Domain\Persona.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SetupTest.cs" />
+    <Compile Include="Hbm2ddlTest.cs" />
+    <Compile Include="BasicDomainTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simplelabs.Framework\Simplelabs.Framework.csproj">

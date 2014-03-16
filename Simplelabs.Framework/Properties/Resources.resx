@@ -123,4 +123,7 @@
   <data name="PersistenceErrorNotCreateSessionManager" xml:space="preserve">
     <value>No se ha podido iniciar la configuración de NHibernate</value>
   </data>
+  <data name="PersistenceErrorNotSession" xml:space="preserve">
+    <value>No existe un sesión de NHibernate en el contexto actual</value>
+  </data>
 </root>
