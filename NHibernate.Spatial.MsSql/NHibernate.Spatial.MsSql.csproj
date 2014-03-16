@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9A6BFE24-4C20-4579-8B64-F0232527B3DA}</ProjectGuid>
+    <ProjectGuid>{66B7B223-C9F0-40EC-A063-43A0A186CB80}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simplelabs.Framework</RootNamespace>
-    <AssemblyName>Simplelabs.Framework</AssemblyName>
+    <RootNamespace>NHibernate.Spatial.MsSql</RootNamespace>
+    <AssemblyName>NHibernate.Spatial.MsSql</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -32,19 +32,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentNHibernate">
-      <HintPath>..\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
+    <Reference Include="GeoAPI">
+      <HintPath>..\packages\GeoAPI.1.7.2\lib\net403-client\GeoAPI.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.SqlServer.Types.11.0.1\lib\net20\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="NetTopologySuite">
+      <HintPath>..\packages\NetTopologySuite.1.13.2\lib\net403-client\NetTopologySuite.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="PowerCollections">
+      <HintPath>..\packages\NetTopologySuite.1.13.2\lib\net403-client\PowerCollections.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,46 +60,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\CManager.cs" />
-    <Compile Include="Configuration\Elements\ElementsCollection.cs" />
-    <Compile Include="Configuration\Elements\IKeyElement.cs" />
-    <Compile Include="Configuration\Elements\NHibernateInterceptor.cs" />
-    <Compile Include="Configuration\Elements\NHibernateSession.cs" />
-    <Compile Include="Configuration\FrameworkSettings.cs" />
-    <Compile Include="Configuration\NHibernateSettings.cs" />
-    <Compile Include="FrameworkException.cs" />
-    <Compile Include="Persistence\NHibernate\AbstractSessionManager.cs" />
-    <Compile Include="Persistence\NHibernate\ManagedThreadSessionContext.cs" />
-    <Compile Include="Persistence\NHibernate\SessionFactory.cs" />
-    <Compile Include="Persistence\NHibernate\ThreadSessionManager.cs" />
-    <Compile Include="Persistence\NHibernate\WebSessionManager.cs" />
+    <Compile Include="Dialect\MsSql2008GeographyDialect.cs" />
+    <Compile Include="Dialect\MsSql2008GeometryDialect.cs" />
+    <Compile Include="Dialect\MsSql2008SpatialDialect.cs" />
+    <Compile Include="Dialect\MsSql2012GeographyDialect.cs" />
+    <Compile Include="Dialect\MsSql2012GeometryDialect.cs" />
+    <Compile Include="Dialect\MsSql2012SpatialDialect.cs" />
+    <Compile Include="Dialect\MsSqlFixedDialectQueryPager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Utils\Reflection.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Type\MsSql2008GeographyReader.cs" />
+    <Compile Include="Type\MsSql2008GeographyType.cs" />
+    <Compile Include="Type\MsSql2008GeographyWriter.cs" />
+    <Compile Include="Type\MsSql2008GeometryReader.cs" />
+    <Compile Include="Type\MsSql2008GeometryType.cs" />
+    <Compile Include="Type\MsSql2008GeometryWriter.cs" />
+    <Compile Include="Type\NtsGeographySink.cs" />
+    <Compile Include="Type\NtsGeometrySink.cs" />
+    <Compile Include="Type\SqlGeographyType.cs" />
+    <Compile Include="Type\SqlGeometryType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Simplelabs.Framework.nuspec" />
+    <Content Include="Metadata\GeometryColumn.MsSql2008GeographyDialect.hbm.xml" />
+    <Content Include="Metadata\GeometryColumn.MsSql2008GeometryDialect.hbm.xml" />
+    <Content Include="SqlServerTypes\readme.htm" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NHibernate.Spatial.MsSql\NHibernate.Spatial.MsSql.csproj">
-      <Project>{66b7b223-c9f0-40ec-a063-43a0a186cb80}</Project>
-      <Name>NHibernate.Spatial.MsSql</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NHibernate.Spatial\NHibernate.Spatial.csproj">
       <Project>{b56f6e16-0702-45df-ac1e-f2617dcfc493}</Project>
       <Name>NHibernate.Spatial</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

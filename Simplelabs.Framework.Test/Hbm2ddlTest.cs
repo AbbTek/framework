@@ -12,7 +12,7 @@ namespace Simplelabs.Framework.Test
         public void CreateDDL()
         {
             var s = new SchemaExport(SessionFactory.GetCurrentConfiguration());
-            s.SetOutputFile("testddl.sql");
+            s.SetOutputFile("d:\\testddl.sql");
             s.Create(false, false);
         }
     }

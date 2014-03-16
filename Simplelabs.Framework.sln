@@ -14,6 +14,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8347C8
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial", "NHibernate.Spatial\NHibernate.Spatial.csproj", "{B56F6E16-0702-45DF-AC1E-F2617DCFC493}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial.MsSql", "NHibernate.Spatial.MsSql\NHibernate.Spatial.MsSql.csproj", "{66B7B223-C9F0-40EC-A063-43A0A186CB80}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E51AEC9F-252D-41DF-86E8-BBAFBF78D11C}"
+	ProjectSection(SolutionItems) = preProject
+		FrameworkTestSettings.testsettings = FrameworkTestSettings.testsettings
+		NHibernate.config = NHibernate.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +38,14 @@ Global
 		{03825F9C-BECD-4EB5-9BAD-0194A290B916}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03825F9C-BECD-4EB5-9BAD-0194A290B916}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03825F9C-BECD-4EB5-9BAD-0194A290B916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B56F6E16-0702-45DF-AC1E-F2617DCFC493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B56F6E16-0702-45DF-AC1E-F2617DCFC493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B56F6E16-0702-45DF-AC1E-F2617DCFC493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B56F6E16-0702-45DF-AC1E-F2617DCFC493}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66B7B223-C9F0-40EC-A063-43A0A186CB80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66B7B223-C9F0-40EC-A063-43A0A186CB80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66B7B223-C9F0-40EC-A063-43A0A186CB80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66B7B223-C9F0-40EC-A063-43A0A186CB80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

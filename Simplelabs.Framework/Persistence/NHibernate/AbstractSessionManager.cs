@@ -1,6 +1,8 @@
 ﻿using FluentNHibernate.Cfg;
 using NHibernate;
 using NHibernate.Cfg.ConfigurationSchema;
+using NHibernate.Spatial.Mapping;
+using NHibernate.Spatial.Metadata;
 using Simplelabs.Framework.Configuration.Elements;
 using Simplelabs.Framework.Utils;
 using System;
@@ -35,7 +37,10 @@ namespace Simplelabs.Framework.Persistence.NHibernate
                 if (interceptor != null)
                     cfg.SetInterceptor(interceptor);
             }
-            
+
+            cfg.AddAuxiliaryDatabaseObject(new SpatialAuxiliaryDatabaseObject(cfg));
+            Metadata.AddMapping(cfg, MetadataClass.GeometryColumn);
+            Metadata.AddMapping(cfg, MetadataClass.SpatialReferenceSystem);
             var fcfg = Fluently.Configure(cfg);
             using (XmlTextReader reader = new XmlTextReader(file))
                 {

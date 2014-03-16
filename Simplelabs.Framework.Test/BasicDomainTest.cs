@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Simplelabs.Framework.Persistence.NHibernate;
 using Simplelabs.Framework.Test.Domain;
+using NHibernate.Criterion;
 
 namespace Simplelabs.Framework.Test
 {
@@ -14,15 +15,21 @@ namespace Simplelabs.Framework.Test
             var session = SessionFactory.GetSession();
             using (var tx = session.BeginTransaction())
             {
-                for (int i = 0; i < 1000; i++)
+                var criteria = session.CreateCriteria<Persona>();
+                criteria.SetProjection(Projections.RowCount());
+                var total = criteria.UniqueResult<int>();
+                if (total < 2000)
                 {
-                    session.Save(new Persona()
+                    for (int i = 0; i < 1000; i++)
                     {
-                        Nombre = "Carlos " + i
-                    });
+                        session.Save(new Persona()
+                        {
+                            Nombre = "Carlos " + i
+                        });
+                    }
                 }
                 tx.Commit();
-            }        
+            }
         }
     }
 }
