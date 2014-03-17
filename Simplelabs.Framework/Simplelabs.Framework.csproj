@@ -66,6 +66,7 @@
     <Compile Include="FrameworkException.cs" />
     <Compile Include="Persistence\NHibernate\AbstractSessionManager.cs" />
     <Compile Include="Persistence\NHibernate\ManagedThreadSessionContext.cs" />
+    <Compile Include="Persistence\NHibernate\NHibernateHttpModule.cs" />
     <Compile Include="Persistence\NHibernate\SessionFactory.cs" />
     <Compile Include="Persistence\NHibernate\SqlHierarchyIdType.cs" />
     <Compile Include="Persistence\NHibernate\ThreadSessionManager.cs" />
