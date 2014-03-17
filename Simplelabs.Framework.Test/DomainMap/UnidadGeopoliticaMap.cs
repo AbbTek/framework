@@ -15,6 +15,11 @@ namespace Simplelabs.Framework.Test.DomainMap
         {
             Id(x => x.ID).GeneratedBy.Identity();
             Map(x => x.Nodo).CustomType<SqlHierarchyIdType>();
+            References<UnidadGeopolitica>(x => x.Padre)          
+                .Column("IDPadre")
+                .Cascade.All();
+            HasMany<UnidadGeopolitica>(x => x.Hijos)
+                .Cascade.All();
         }
     }
 }

@@ -13,6 +13,6 @@ namespace Simplelabs.Framework.Test.Domain
 
         public virtual UnidadGeopolitica Padre { get; set; }
 
-        public virtual List<UnidadGeopolitica> Hijos { get; set; }
+        public virtual IList<UnidadGeopolitica> Hijos { get; set; }
     }
 }

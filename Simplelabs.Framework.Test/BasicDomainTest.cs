@@ -10,7 +10,7 @@ namespace Simplelabs.Framework.Test
     public class BasicDomainTest
     {
         [TestMethod]
-        public void Create()
+        public void CreatePersonas()
         {
             var session = SessionFactory.GetSession();
             using (var tx = session.BeginTransaction())
@@ -28,6 +28,38 @@ namespace Simplelabs.Framework.Test
                         });
                     }
                 }
+                tx.Commit();
+            }
+        }
+
+        [TestMethod]
+        public void CreateUnidadGeopolitica()
+        {
+            var session = SessionFactory.GetSession();
+            using (var tx = session.BeginTransaction())
+            {
+                var padre = new UnidadGeopolitica()
+                {
+                    Nodo = "/1/"
+                };
+                padre.Hijos = new System.Collections.Generic.List<UnidadGeopolitica>();
+                padre.Hijos.Add(new UnidadGeopolitica()
+                {
+                    Padre = padre,
+                    Nodo = "/1/1/"
+                });
+                padre.Hijos.Add(new UnidadGeopolitica()
+                {
+                    Padre = padre,
+                    Nodo = "/1/2/"
+                });
+                padre.Hijos.Add(new UnidadGeopolitica()
+                {
+                    Padre = padre,
+                    Nodo = "/1/3/"
+                });
+
+                session.Save(padre);
                 tx.Commit();
             }
         }

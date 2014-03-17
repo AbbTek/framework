@@ -70,5 +70,13 @@ namespace Simplelabs.Framework.Persistence.NHibernate
         {
             return AbstractSessionManager.cfgs[name];
         }
+
+        public static void CloseAllSession()
+        {
+            foreach (var item in managers)
+            {
+                item.Value.CloseSession();
+            }
+        }
     }
 }
