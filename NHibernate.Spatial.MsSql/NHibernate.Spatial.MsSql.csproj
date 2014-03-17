@@ -81,8 +81,8 @@
     <Compile Include="Type\SqlGeometryType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Metadata\GeometryColumn.MsSql2008GeographyDialect.hbm.xml" />
-    <Content Include="Metadata\GeometryColumn.MsSql2008GeometryDialect.hbm.xml" />
+    <EmbeddedResource Include="Metadata\GeometryColumn.MsSql2012GeographyDialect.hbm.xml" />
+    <EmbeddedResource Include="Metadata\GeometryColumn.MsSql2012GeometryDialect.hbm.xml" />
     <Content Include="SqlServerTypes\readme.htm" />
   </ItemGroup>
   <ItemGroup>

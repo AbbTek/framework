@@ -6,16 +6,18 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    
+
     <projectUrl>http://www.simplelabs.io</projectUrl>
-    
+
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>Primera versión</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>Simplelabs, NHibernate, ORM</tags>
     <dependencies>
       <dependency id="NHibernate" version="3.3.3.4001" />
+      <dependency id="Microsoft.SqlServer.Types" version="11.0.1" />
+      <dependency id="NetTopologySuite" version="1.13.2"  />
     </dependencies>
   </metadata>
 </package>

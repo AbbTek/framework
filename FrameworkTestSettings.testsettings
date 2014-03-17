@@ -3,7 +3,7 @@
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
     <DeploymentItem filename="NHibernate.config" />
-    <DeploymentItem filename="NHibernate.Spatial.MsSql\obj\Debug\NHibernate.Spatial.MsSql.dll" />
+    <DeploymentItem filename="NHibernate.Spatial.MsSql\bin\Debug\NHibernate.Spatial.MsSql.dll" />
   </Deployment>
   <Execution>
     <TestTypeSpecific>

@@ -39,8 +39,8 @@ namespace Simplelabs.Framework.Persistence.NHibernate
             }
 
             cfg.AddAuxiliaryDatabaseObject(new SpatialAuxiliaryDatabaseObject(cfg));
-            Metadata.AddMapping(cfg, MetadataClass.GeometryColumn);
-            Metadata.AddMapping(cfg, MetadataClass.SpatialReferenceSystem);
+            //Metadata.AddMapping(cfg, MetadataClass.GeometryColumn);
+            //Metadata.AddMapping(cfg, MetadataClass.SpatialReferenceSystem);
             var fcfg = Fluently.Configure(cfg);
             using (XmlTextReader reader = new XmlTextReader(file))
                 {
