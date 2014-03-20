@@ -87,6 +87,7 @@
     <Compile Include="SpatialAnalysis.cs" />
     <Compile Include="SpatialRelation.cs" />
     <Compile Include="SpatialValidation.cs" />
+    <Compile Include="SqlStringHelper.cs" />
     <Compile Include="Type\GeometryType.cs" />
     <Compile Include="Type\GeometryTypeBase.cs" />
     <Compile Include="Type\IGeometryUserType.cs" />

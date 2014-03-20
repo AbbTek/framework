@@ -18,6 +18,7 @@
 using System;
 using NHibernate.SqlCommand;
 using NHibernate.Spatial.Dialect;
+using NHibernate.Criterion;
 
 namespace NHibernate.Spatial.Criterion
 {
@@ -42,6 +43,17 @@ namespace NHibernate.Spatial.Criterion
 		{
 			this.aggregate = aggregate;
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="aggregate"></param>
+        public SpatialAggregateProjection(IProjection projection, SpatialAggregate aggregate)
+            : base(projection)
+        {
+            this.aggregate = aggregate;
+        }
 
 		/// <summary>
 		/// Render the SQL Fragment.
@@ -72,5 +84,20 @@ namespace NHibernate.Spatial.Criterion
 		{
 			get { return true; }
 		}
-	}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="spatialDialect"></param>
+        /// <param name="criteria"></param>
+        /// <param name="position"></param>
+        /// <param name="criteriaQuery"></param>
+        /// <param name="enabledFilters"></param>
+        /// <returns></returns>
+        public override SqlString ToSqlString(NHibernate.Criterion.IProjection projection, ISpatialDialect spatialDialect, ICriteria criteria, int position, NHibernate.Criterion.ICriteriaQuery criteriaQuery, System.Collections.Generic.IDictionary<string, IFilter> enabledFilters)
+        {
+            return spatialDialect.GetSpatialAggregateString(SqlStringHelper.RemoveAsAliasesFromSql(projection.ToSqlString(criteria, position, criteriaQuery, enabledFilters)), this.aggregate);
+        }
+    }
 }

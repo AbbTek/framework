@@ -15,6 +15,7 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using NHibernate.Criterion;
 namespace NHibernate.Spatial.Criterion
 {
 	/// <summary>
@@ -38,6 +39,16 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return new SpatialAggregateProjection(propertyName, SpatialAggregate.Collect);
 		}
+
+        /// <summary>
+        /// Aggregates collection of the specified property name.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <returns></returns>
+        public static SpatialAggregateProjection Collect(IProjection projection)
+        {
+            return new SpatialAggregateProjection(projection, SpatialAggregate.Collect);
+        }
 
 		/// <summary>
 		/// Aggregates envelope of the specified property name.
@@ -77,12 +88,17 @@ namespace NHibernate.Spatial.Criterion
 		/// Buffers the specified property name.
 		/// </summary>
 		/// <param name="propertyName">Name of the property.</param>
-		/// <param name="anotherPropertyName">Name of another property.</param>
+        /// <param name="buffer">Name of another property.</param>
 		/// <returns></returns>
-		public static SpatialProjection Buffer(string propertyName, double anotherPropertyName)
+		public static SpatialProjection Buffer(string propertyName, double buffer)
 		{
-			return new SpatialAnalysisProjection(propertyName, SpatialAnalysis.Buffer, anotherPropertyName);
+            return new SpatialAnalysisProjection(propertyName, SpatialAnalysis.Buffer, buffer);
 		}
+
+        public static SpatialProjection Buffer(IProjection projection, double buffer)
+        {
+            return new SpatialAnalysisProjection(projection, SpatialAnalysis.Buffer, buffer);
+        }
 
 		/// <summary>
 		/// ConvexHull for the specified property name.
@@ -93,6 +109,16 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return new SpatialAnalysisProjection(propertyName, SpatialAnalysis.ConvexHull);
 		}
+
+        /// <summary>
+        /// ConvexHull for the specified property name.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <returns></returns>
+        public static SpatialProjection ConvexHull(IProjection projection)
+        {
+            return new SpatialAnalysisProjection(projection, SpatialAnalysis.ConvexHull);
+        }
 
 		/// <summary>
 		/// Difference of the specified property names.
@@ -163,6 +189,17 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return new SpatialRelationProjection(propertyName, SpatialRelation.Contains, anotherPropertyName);
 		}
+
+        /// <summary>
+        /// Determines whether the specified geometry property contains another geometry property.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherprojection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Contains(IProjection projection, IProjection anotherprojection)
+        {
+            return new SpatialRelationProjection(projection, SpatialRelation.Contains, anotherprojection);
+        }
 
 		/// <summary>
 		/// Determines whether the specified geometry property is covered by another geometry property.

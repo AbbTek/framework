@@ -37,7 +37,8 @@ namespace NHibernate.Spatial.Criterion
 		/// <summary>
 		/// 
 		/// </summary>
-        protected string propertyName;
+        protected readonly string propertyName;
+        protected readonly IProjection projection;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SpatialProjection"/> class.
@@ -47,6 +48,11 @@ namespace NHibernate.Spatial.Criterion
 		{
 			this.propertyName = propertyName;
 		}
+
+        protected SpatialProjection(IProjection projection)
+        {
+            this.projection = projection;
+        }
 
 		/// <summary>
 		/// Gets the types.
@@ -70,8 +76,10 @@ namespace NHibernate.Spatial.Criterion
 		public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
 		{
 			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-			string column = criteriaQuery.GetColumn(criteria, this.propertyName);
-			SqlString sqlString = this.ToSqlString(column, spatialDialect);
+            SqlString sqlString =
+                this.propertyName != null ?
+                this.ToSqlString(criteriaQuery.GetColumn(criteria, this.propertyName), spatialDialect) :
+                this.ToSqlString(this.projection,spatialDialect,criteria,position,criteriaQuery,enabledFilters);
 			return new SqlStringBuilder() 
 				.Add(sqlString)
 				.Add(" as y")
@@ -86,10 +94,15 @@ namespace NHibernate.Spatial.Criterion
 		/// <param name="column">The column.</param>
 		/// <param name="spatialDialect">The spatial dialect.</param>
 		/// <returns></returns>
-		public virtual SqlString ToSqlString(string column, ISpatialDialect spatialDialect)
-		{
-			return null;
-		}
+		public abstract SqlString ToSqlString(string column, ISpatialDialect spatialDialect);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="spatialDialect"></param>
+        /// <returns></returns>
+        public abstract SqlString ToSqlString(IProjection projection, ISpatialDialect spatialDialect, ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters);
 
         /// <summary>
         /// 

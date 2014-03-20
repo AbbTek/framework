@@ -78,9 +78,11 @@
     <Compile Include="Domain\Direccion.cs" />
     <Compile Include="Domain\Persona.cs" />
     <Compile Include="Domain\UnidadGeopolitica.cs" />
+    <Compile Include="GIS\SpatialProjectionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Hbm2ddlTest.cs" />
     <Compile Include="BasicDomainTest.cs" />
+    <Compile Include="SpatialTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernate.Spatial.MsSql\NHibernate.Spatial.MsSql.csproj">

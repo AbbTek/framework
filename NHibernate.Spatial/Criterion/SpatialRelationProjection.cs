@@ -32,6 +32,7 @@ namespace NHibernate.Spatial.Criterion
 	{
 		private readonly SpatialRelation relation;
 		private readonly string anotherPropertyName;
+        private readonly IProjection anotherProjection;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SpatialRelationProjection"/> class.
@@ -45,6 +46,13 @@ namespace NHibernate.Spatial.Criterion
 			this.relation = relation;
 			this.anotherPropertyName = anotherPropertyName;
 		}
+
+        public SpatialRelationProjection(IProjection projection, SpatialRelation relation, IProjection anotherProjection)
+            : base(projection)
+        {
+            this.relation = relation;
+            this.anotherProjection = anotherProjection;
+        }
 
 		/// <summary>
 		/// Gets the types.
@@ -68,9 +76,10 @@ namespace NHibernate.Spatial.Criterion
 		public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
 		{
 			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-			string column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
-			string column2 = criteriaQuery.GetColumn(criteria, this.anotherPropertyName);
-			SqlString sqlString = spatialDialect.GetSpatialRelationString(column1, this.relation, column2, false);
+            SqlString sqlString = this.propertyName != null ? 
+                spatialDialect.GetSpatialRelationString(criteriaQuery.GetColumn(criteria, this.propertyName), this.relation, criteriaQuery.GetColumn(criteria, this.anotherPropertyName), false) :
+                spatialDialect.GetSpatialRelationString(SqlStringHelper.RemoveAsAliasesFromSql(projection.ToSqlString(criteria, position, criteriaQuery, enabledFilters)),
+                this.relation, SqlStringHelper.RemoveAsAliasesFromSql(anotherProjection.ToSqlString(criteria, position, criteriaQuery, enabledFilters)), false);
 			return new SqlStringBuilder()
 				.Add(sqlString)
 				.Add(" as y")
@@ -79,5 +88,15 @@ namespace NHibernate.Spatial.Criterion
 				.ToSqlString();
 		}
 
-	}
+
+        public override SqlString ToSqlString(string column, ISpatialDialect spatialDialect)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override SqlString ToSqlString(IProjection projection, ISpatialDialect spatialDialect, ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

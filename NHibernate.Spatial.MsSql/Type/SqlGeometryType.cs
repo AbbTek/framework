@@ -22,6 +22,7 @@ using System.Data.SqlTypes;
 using Microsoft.SqlServer.Types;
 using NHibernate.SqlTypes;
 using NHibernate.Type;
+using System.IO;
 
 namespace NHibernate.Spatial.Type
 {
@@ -89,8 +90,26 @@ namespace NHibernate.Spatial.Type
         /// <returns></returns>
 		public override object Get(IDataReader rs, int index)
 		{
-			return (SqlGeometry)rs[index];
+            var reader = rs as NHibernate.Driver.NHybridDataReader;
+            if (reader != null)
+                return this.DeserializeSqlGeometry(reader.Target as SqlDataReader, index);
+            else
+                return (SqlGeometry)rs[index];
 		}
+
+        private SqlGeometry DeserializeSqlGeometry(SqlDataReader sqlDataReader, int geometryColumnIndex)
+        {
+            SqlGeometry sqlGeometry = new SqlGeometry();
+            System.Data.SqlTypes.SqlBytes bytes = sqlDataReader.GetSqlBytes(geometryColumnIndex);
+            using (MemoryStream stream = new MemoryStream(bytes.Buffer))
+            {
+                using (BinaryReader reader = new BinaryReader(stream))
+                {
+                    sqlGeometry.Read(reader);
+                }
+            }
+            return sqlGeometry;
+        }
 
         /// <summary>
         /// 

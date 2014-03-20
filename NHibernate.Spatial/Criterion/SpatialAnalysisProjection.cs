@@ -24,98 +24,157 @@ using NHibernate.Type;
 
 namespace NHibernate.Spatial.Criterion
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class SpatialAnalysisProjection : SpatialProjection
-	{
-		private readonly SpatialAnalysis analysis;
-		private readonly string anotherPropertyName;
-		private readonly object[] arguments;
+    /// <summary>
+    /// 
+    /// </summary>
+    [Serializable]
+    public class SpatialAnalysisProjection : SpatialProjection
+    {
+        private readonly SpatialAnalysis analysis;
+        private readonly string anotherPropertyName;
+        private readonly object[] arguments;
+        protected readonly IProjection anotherProjection;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SpatialAnalysisProjection"/> class.
-		/// </summary>
-		/// <param name="propertyName">Name of the property.</param>
-		/// <param name="analysis">The analysis.</param>
-		/// <param name="anotherPropertyName">Name of another property.</param>
-		public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis, string anotherPropertyName)
-			: base(propertyName)
-		{
-			this.analysis = analysis;
-			this.anotherPropertyName = anotherPropertyName;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpatialAnalysisProjection"/> class.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="analysis">The analysis.</param>
+        /// <param name="anotherPropertyName">Name of another property.</param>
+        public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis, string anotherPropertyName)
+            : base(propertyName)
+        {
+            this.analysis = analysis;
+            this.anotherPropertyName = anotherPropertyName;
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SpatialAnalysisProjection"/> class.
-		/// </summary>
-		/// <param name="propertyName">Name of the property.</param>
-		/// <param name="analysis">The analysis.</param>
-		/// <param name="arguments">The arguments.</param>
-		public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis, params object[] arguments)
-			: base(propertyName)
-		{
-			this.analysis = analysis;
-			this.arguments = arguments;
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="analysis"></param>
+        /// <param name="anotherProjection"></param>
+        public SpatialAnalysisProjection(IProjection projection, SpatialAnalysis analysis, IProjection anotherProjection)
+            : base(projection)
+        {
+            this.analysis = analysis;
+            this.anotherProjection = anotherProjection;
+        }
 
-		/// <summary>
-		/// Gets the types.
-		/// </summary>
-		/// <param name="criteria">The criteria.</param>
-		/// <param name="criteriaQuery">The criteria query.</param>
-		/// <returns></returns>
-		public override IType[] GetTypes(ICriteria criteria, ICriteriaQuery criteriaQuery)
-		{
-			if (this.analysis == SpatialAnalysis.Distance)
-			{
-				return new IType[] { NHibernateUtil.Double };
-			}
-			return base.GetTypes(criteria, criteriaQuery);
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpatialAnalysisProjection"/> class.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="analysis">The analysis.</param>
+        /// <param name="arguments">The arguments.</param>
+        public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis, params object[] arguments)
+            : base(propertyName)
+        {
+            this.analysis = analysis;
+            this.arguments = arguments;
+        }
 
-		/// <summary>
-		/// Render the SQL Fragment.
-		/// </summary>
-		/// <param name="criteria"></param>
-		/// <param name="position"></param>
-		/// <param name="criteriaQuery"></param>
-		/// <param name="enabledFilters"></param>
-		/// <returns></returns>
-		public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
-		{
-			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-			string column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
-			SqlString sqlString;
-			if (this.IsBinaryOperation())
-			{
-				string column2 = criteriaQuery.GetColumn(criteria, this.anotherPropertyName);
-				sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, column2);
-			}
-			else
-			{
-				sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, this.arguments);
-			}
-			return new SqlStringBuilder()
-				.Add(sqlString)
-				.Add(" as y")
-				.Add(position.ToString())
-				.Add("_")
-				.ToSqlString();
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="analysis"></param>
+        /// <param name="arguments"></param>
+        public SpatialAnalysisProjection(IProjection projection, SpatialAnalysis analysis, params object[] arguments)
+            : base(projection)
+        {
+            this.analysis = analysis;
+            this.arguments = arguments;
+        }
 
-		/// <summary>
-		/// Determines whether is binary operation.
-		/// </summary>
-		/// <returns>
-		/// 	<c>true</c> if is binary operation; otherwise, <c>false</c>.
-		/// </returns>
-		private bool IsBinaryOperation()
-		{
-			return (this.analysis != SpatialAnalysis.Buffer &&
-					this.analysis != SpatialAnalysis.ConvexHull);
-		}
+        /// <summary>
+        /// Gets the types.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="criteriaQuery">The criteria query.</param>
+        /// <returns></returns>
+        public override IType[] GetTypes(ICriteria criteria, ICriteriaQuery criteriaQuery)
+        {
+            if (this.analysis == SpatialAnalysis.Distance)
+            {
+                return new IType[] { NHibernateUtil.Double };
+            }
+            return base.GetTypes(criteria, criteriaQuery);
+        }
 
-	}
+        /// <summary>
+        /// Render the SQL Fragment.
+        /// </summary>
+        /// <param name="criteria"></param>
+        /// <param name="position"></param>
+        /// <param name="criteriaQuery"></param>
+        /// <param name="enabledFilters"></param>
+        /// <returns></returns>
+        public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
+        {
+            ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
+
+            SqlString sqlString;
+            if (this.IsBinaryOperation())
+            {
+                if (this.propertyName != null && this.anotherPropertyName != null)
+                {
+                    var column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
+                    string column2 = criteriaQuery.GetColumn(criteria, this.anotherPropertyName);
+                    sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, column2);
+                }
+                else
+                {
+                    sqlString = spatialDialect.GetSpatialAnalysisString(
+                    SqlStringHelper.RemoveAsAliasesFromSql(projection.ToSqlString(criteria, position, criteriaQuery, enabledFilters)),
+                    this.analysis,
+                    SqlStringHelper.RemoveAsAliasesFromSql(this.anotherProjection.ToSqlString(criteria, position, criteriaQuery, enabledFilters)));
+                }
+            }
+            else
+            {
+                if (this.propertyName != null)
+                {
+                    var column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
+                    sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, this.arguments);
+                }
+                else
+                {
+                    sqlString = spatialDialect.GetSpatialAnalysisString(
+                        SqlStringHelper.RemoveAsAliasesFromSql(projection.ToSqlString(criteria, position, criteriaQuery, enabledFilters)),
+                        this.analysis,
+                        this.arguments);
+                }
+            }
+            return new SqlStringBuilder()
+                .Add(sqlString)
+                .Add(" as y")
+                .Add(position.ToString())
+                .Add("_")
+                .ToSqlString();
+        }
+
+        /// <summary>
+        /// Determines whether is binary operation.
+        /// </summary>
+        /// <returns>
+        /// 	<c>true</c> if is binary operation; otherwise, <c>false</c>.
+        /// </returns>
+        private bool IsBinaryOperation()
+        {
+            return (this.analysis != SpatialAnalysis.Buffer &&
+                    this.analysis != SpatialAnalysis.ConvexHull);
+        }
+
+
+        public override SqlString ToSqlString(string column, ISpatialDialect spatialDialect)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override SqlString ToSqlString(IProjection projection, ISpatialDialect spatialDialect, ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

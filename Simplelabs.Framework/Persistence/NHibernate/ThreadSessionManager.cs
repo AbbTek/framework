@@ -19,14 +19,14 @@ namespace Simplelabs.Framework.Persistence.NHibernate
         public override global::NHibernate.ISession GetSession(global::NHibernate.IInterceptor interceptor)
         {
             ISession session = null;
-            if (ManagedThreadSessionContext.HasBind(sessionFactory))
+            if (global::NHibernate.Context.ThreadStaticSessionContext.HasBind(sessionFactory))
             {
                 session = this.sessionFactory.GetCurrentSession();
             }
             else
             {
                 session = interceptor != null ? sessionFactory.OpenSession(interceptor) : sessionFactory.OpenSession();
-                ManagedThreadSessionContext.Bind(session);
+                global::NHibernate.Context.ThreadStaticSessionContext.Bind(session);
             }
 
             return session;
@@ -34,14 +34,15 @@ namespace Simplelabs.Framework.Persistence.NHibernate
 
         public override void CloseSession()
         {
-            if (ManagedThreadSessionContext.HasBind(sessionFactory))
+            
+            if (global::NHibernate.Context.ThreadStaticSessionContext.HasBind(sessionFactory))
             {
                 ISession session = this.sessionFactory.GetCurrentSession();
 
                 if (session != null && session.IsOpen)
                 {
                     session.Close();
-                    ManagedThreadSessionContext.Unbind(sessionFactory);
+                    global::NHibernate.Context.ThreadStaticSessionContext.Unbind(sessionFactory);
                 }
             }
         }

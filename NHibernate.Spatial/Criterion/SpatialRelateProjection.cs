@@ -97,5 +97,15 @@ namespace NHibernate.Spatial.Criterion
                 .ToSqlString();
         }
 
+
+        public override SqlString ToSqlString(string column, ISpatialDialect spatialDialect)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override SqlString ToSqlString(IProjection projection, ISpatialDialect spatialDialect, ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

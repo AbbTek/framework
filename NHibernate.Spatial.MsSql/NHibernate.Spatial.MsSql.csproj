@@ -68,7 +68,6 @@
     <Compile Include="Dialect\MsSql2012SpatialDialect.cs" />
     <Compile Include="Dialect\MsSqlFixedDialectQueryPager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Type\MsSql2008GeographyReader.cs" />
     <Compile Include="Type\MsSql2008GeographyType.cs" />
     <Compile Include="Type\MsSql2008GeographyWriter.cs" />
@@ -79,11 +78,6 @@
     <Compile Include="Type\NtsGeometrySink.cs" />
     <Compile Include="Type\SqlGeographyType.cs" />
     <Compile Include="Type\SqlGeometryType.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Metadata\GeometryColumn.MsSql2012GeographyDialect.hbm.xml" />
-    <EmbeddedResource Include="Metadata\GeometryColumn.MsSql2012GeometryDialect.hbm.xml" />
-    <Content Include="SqlServerTypes\readme.htm" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernate.Spatial\NHibernate.Spatial.csproj">

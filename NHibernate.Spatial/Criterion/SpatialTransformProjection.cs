@@ -61,5 +61,10 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return "Transform(" + this.propertyName + ", " + this.targetSrid.ToString() + ")";
 		}
-	}
+
+        public override SqlString ToSqlString(NHibernate.Criterion.IProjection projection, ISpatialDialect spatialDialect, ICriteria criteria, int position, NHibernate.Criterion.ICriteriaQuery criteriaQuery, System.Collections.Generic.IDictionary<string, IFilter> enabledFilters)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
