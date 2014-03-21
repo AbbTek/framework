@@ -21,7 +21,7 @@ using GeoAPI.Geometries;
 
 namespace NHibernate.Spatial.Type
 {
-    internal class MsSql2008GeometryWriter
+    internal class MsSqlGeometryWriter
     {
         private readonly SqlGeometryBuilder builder = new SqlGeometryBuilder();
 

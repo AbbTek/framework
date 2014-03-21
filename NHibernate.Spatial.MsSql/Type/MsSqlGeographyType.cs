@@ -25,14 +25,14 @@ namespace NHibernate.Spatial.Type
 	/// <summary>
 	/// 
 	/// </summary>
-	public class MsSql2008GeographyType : GeometryTypeBase<SqlGeography>
+	public class MsSqlGeographyType : GeometryTypeBase<SqlGeography>
 	{
 		private static readonly NullableType SqlGeographyType = new SqlGeographyType();
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MsSql2008GeographyType"/> class.
+		/// Initializes a new instance of the <see cref="MsSqlGeographyType"/> class.
 		/// </summary>
-		public MsSql2008GeographyType()
+		public MsSqlGeographyType()
 			: base(SqlGeographyType)
 		{
 		}
@@ -66,7 +66,7 @@ namespace NHibernate.Spatial.Type
 
 			try
 			{
-				MsSql2008GeographyWriter writer = new MsSql2008GeographyWriter();
+				MsSqlGeographyWriter writer = new MsSqlGeographyWriter();
 				SqlGeography sqlGeography = writer.Write(geometry);
 				return sqlGeography;
 			}
@@ -96,7 +96,7 @@ namespace NHibernate.Spatial.Type
 				return null;
 			}
 			
-			MsSql2008GeographyReader reader = new MsSql2008GeographyReader();
+			MsSqlGeographyReader reader = new MsSqlGeographyReader();
 			IGeometry geometry = reader.Read(sqlGeography);
 			SetDefaultSRID(geometry);
 			return geometry;

@@ -26,20 +26,20 @@ using System.IO;
 
 namespace NHibernate.Spatial.Type
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class SqlGeometryType : ImmutableType
-	{
+    /// <summary>
+    /// 
+    /// </summary>
+    [Serializable]
+    public class SqlGeometryType : ImmutableType
+    {
         /// <summary>
         /// 
         /// </summary>
-		public SqlGeometryType()
-			// Pass any SqlType to base class.
-			: base(SqlTypeFactory.Byte)
-		{
-		}
+        public SqlGeometryType()
+            // Pass any SqlType to base class.
+            : base(SqlTypeFactory.Byte)
+        {
+        }
 
         /// <summary>
         /// 
@@ -47,11 +47,11 @@ namespace NHibernate.Spatial.Type
         /// <param name="rs"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-		public override object NullSafeGet(IDataReader rs, string name)
-		{
-			object value = base.NullSafeGet(rs, name);
-			return value ?? SqlGeometry.Null;
-		}
+        public override object NullSafeGet(IDataReader rs, string name)
+        {
+            object value = base.NullSafeGet(rs, name);
+            return value ?? SqlGeometry.Null;
+        }
 
         /// <summary>
         /// 
@@ -59,28 +59,28 @@ namespace NHibernate.Spatial.Type
         /// <param name="rs"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-		public override object Get(IDataReader rs, string name)
-		{
-			return Get(rs, rs.GetOrdinal(name));
-		}
+        public override object Get(IDataReader rs, string name)
+        {
+            return Get(rs, rs.GetOrdinal(name));
+        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-		public override string ToString(object value)
-		{
-			return value.ToString();
-		}
+        public override string ToString(object value)
+        {
+            return value.ToString();
+        }
 
         /// <summary>
         /// 
         /// </summary>
-		public override string Name
-		{
-			get { return ReturnedClass.Name; }
-		}
+        public override string Name
+        {
+            get { return ReturnedClass.Name; }
+        }
 
         /// <summary>
         /// 
@@ -88,27 +88,9 @@ namespace NHibernate.Spatial.Type
         /// <param name="rs"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-		public override object Get(IDataReader rs, int index)
-		{
-            var reader = rs as NHibernate.Driver.NHybridDataReader;
-            if (reader != null)
-                return this.DeserializeSqlGeometry(reader.Target as SqlDataReader, index);
-            else
-                return (SqlGeometry)rs[index];
-		}
-
-        private SqlGeometry DeserializeSqlGeometry(SqlDataReader sqlDataReader, int geometryColumnIndex)
+        public override object Get(IDataReader rs, int index)
         {
-            SqlGeometry sqlGeometry = new SqlGeometry();
-            System.Data.SqlTypes.SqlBytes bytes = sqlDataReader.GetSqlBytes(geometryColumnIndex);
-            using (MemoryStream stream = new MemoryStream(bytes.Buffer))
-            {
-                using (BinaryReader reader = new BinaryReader(stream))
-                {
-                    sqlGeometry.Read(reader);
-                }
-            }
-            return sqlGeometry;
+            return (SqlGeometry)rs[index];
         }
 
         /// <summary>
@@ -116,18 +98,18 @@ namespace NHibernate.Spatial.Type
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-		public override object FromStringValue(string xml)
-		{
-			return SqlGeometry.STGeomFromText(new SqlChars(xml), 0);
-		}
+        public override object FromStringValue(string xml)
+        {
+            return SqlGeometry.STGeomFromText(new SqlChars(xml), 0);
+        }
 
         /// <summary>
         /// 
         /// </summary>
-		public override System.Type ReturnedClass
-		{
-			get { return typeof(SqlGeometry); }
-		}
+        public override System.Type ReturnedClass
+        {
+            get { return typeof(SqlGeometry); }
+        }
 
         /// <summary>
         /// 
@@ -135,14 +117,14 @@ namespace NHibernate.Spatial.Type
         /// <param name="cmd"></param>
         /// <param name="value"></param>
         /// <param name="index"></param>
-		public override void Set(IDbCommand cmd, object value, int index)
-		{
-			object parameterValue = ((INullable) value).IsNull ? DBNull.Value : value;
+        public override void Set(IDbCommand cmd, object value, int index)
+        {
+            object parameterValue = ((INullable)value).IsNull ? DBNull.Value : value;
 
             SqlParameter sqlParameter = (SqlParameter)cmd.Parameters[index];
-			sqlParameter.SqlDbType = SqlDbType.Udt;
-			sqlParameter.UdtTypeName = "geometry";
-			sqlParameter.Value = parameterValue;
-		}
-	}
+            sqlParameter.SqlDbType = SqlDbType.Udt;
+            sqlParameter.UdtTypeName = "geometry";
+            sqlParameter.Value = parameterValue;
+        }
+    }
 }

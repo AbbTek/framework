@@ -88,6 +88,17 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
+        public void CoveredBy2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.CoveredBy(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+        [TestMethod]
         public void Covers()
         {
             var session = SessionFactory.GetSession();

@@ -21,7 +21,7 @@ using System.IO;
 
 namespace NHibernate.Spatial.Type
 {
-    internal class MsSql2008GeometryReader
+    internal class MsSqlGeometryReader
     {
         public IGeometry Read(byte[] bytes)
         {

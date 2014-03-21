@@ -212,6 +212,17 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialRelationProjection(propertyName, SpatialRelation.CoveredBy, anotherPropertyName);
 		}
 
+        /// <summary>
+        /// Determines whether the specified geometry property is covered by another geometry property.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection CoveredBy(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialRelationProjection(projection, SpatialRelation.CoveredBy, anotherProjection);
+        }
+
 		/// <summary>
 		/// Determines whether the specified geometry property covers another geometry property.
 		/// </summary>
@@ -222,6 +233,17 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return new SpatialRelationProjection(propertyName, SpatialRelation.Covers, anotherPropertyName);
 		}
+
+        /// <summary>
+        /// Determines whether the specified geometry property covers another geometry property.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Covers(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialRelationProjection(projection, SpatialRelation.Covers, anotherProjection);
+        }
 
 		/// <summary>
 		/// Determines whether the specified geometry property crosses another geometry property.
@@ -234,6 +256,17 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialRelationProjection(propertyName, SpatialRelation.Crosses, anotherPropertyName);
 		}
 
+        /// <summary>
+        /// Determines whether the specified geometry property crosses another geometry property.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Crosses(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialRelationProjection(projection, SpatialRelation.Crosses, anotherProjection);
+        }
+
 		/// <summary>
 		/// Determines whether the specified geometry property is disjoint with another geometry property.
 		/// </summary>
@@ -244,6 +277,17 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return new SpatialRelationProjection(propertyName, SpatialRelation.Disjoint, anotherPropertyName);
 		}
+
+        /// <summary>
+        /// Determines whether the specified geometry property is disjoint with another geometry property.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Disjoint(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialRelationProjection(projection, SpatialRelation.Disjoint, anotherProjection);
+        }
 
 		/// <summary>
 		/// Determines whether the specified geometry property equals to another geometry property.
@@ -256,6 +300,17 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialRelationProjection(propertyName, SpatialRelation.Equals, anotherPropertyName);
 		}
 
+        /// <summary>
+        /// Determines whether the specified geometry property equals to another geometry property.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Equals(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialRelationProjection(projection, SpatialRelation.Equals, anotherProjection);
+        }
+
 		/// <summary>
 		/// Determines whether the specified geometry property intersects another geometry property.
 		/// </summary>
@@ -266,6 +321,17 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return new SpatialRelationProjection(propertyName, SpatialRelation.Intersects, anotherPropertyName);
 		}
+
+        /// <summary>
+        /// Determines whether the specified geometry property intersects another geometry property.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Intersects(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialRelationProjection(projection, SpatialRelation.Intersects, anotherProjection);
+        }
 
 		/// <summary>
 		/// Determines whether the specified geometry property overlaps another geometry property.
@@ -278,6 +344,17 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialRelationProjection(propertyName, SpatialRelation.Overlaps, anotherPropertyName);
 		}
 
+        /// <summary>
+        /// Determines whether the specified geometry property overlaps another geometry property.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Overlaps(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialRelationProjection(projection, SpatialRelation.Overlaps, anotherProjection);
+        }
+
 		/// <summary>
 		/// Determines whether the specified geometry property touches another geometry property.
 		/// </summary>
@@ -288,6 +365,17 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return new SpatialRelationProjection(propertyName, SpatialRelation.Touches, anotherPropertyName);
 		}
+
+        /// <summary>
+        /// Determines whether the specified geometry property touches another geometry property.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Touches(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialRelationProjection(projection, SpatialRelation.Touches, anotherProjection);
+        }
 
 		/// <summary>
 		/// Determines whether the specified geometry property is within another geometry property.
@@ -300,18 +388,16 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialRelationProjection(propertyName, SpatialRelation.Within, anotherPropertyName);
 		}
 
-
-		/// <summary>
-		/// Determines whether the specified geometry property relates to another geometry property.
-		/// </summary>
-		/// <param name="propertyName">Name of the property.</param>
-		/// <param name="anotherPropertyName">Name of another property.</param>
-		/// <returns></returns>
-        [System.Obsolete("The method STRelate require a pattern", true)]
-		public static SpatialProjection Relate(string propertyName, string anotherPropertyName)
-		{
-			return new SpatialRelateProjection(propertyName, anotherPropertyName);
-		}
+        /// <summary>
+        /// Determines whether the specified geometry property is within another geometry property.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Within(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialRelationProjection(projection, SpatialRelation.Within, anotherProjection);
+        }
 
 		/// <summary>
 		/// Determines whether the specified geometry property relates to another geometry property.
