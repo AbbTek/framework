@@ -34,7 +34,8 @@ namespace NHibernate.Spatial.Dialect
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MsSql2008SpatialDialect"/> class.
 		/// </summary>
-		protected MsSql2012SpatialDialect()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        protected MsSql2012SpatialDialect()
 		{
 			SpatialDialect.LastInstantiated = this;
 			RegisterBasicFunctions();

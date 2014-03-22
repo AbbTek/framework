@@ -14,7 +14,9 @@ namespace Simplelabs.Framework.Test.DomainMap
         public UnidadGeopoliticaMap()
         {
             Id(x => x.ID).GeneratedBy.Identity();
-            Map(x => x.Nodo).CustomType<SqlHierarchyIdType>();
+            Map(x => x.Nodo)
+                .CustomSqlType("hierarchyid")
+                .Not.Nullable();
             References<UnidadGeopolitica>(x => x.Padre)          
                 .Column("IDPadre")
                 .Cascade.All();

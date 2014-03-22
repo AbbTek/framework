@@ -13,17 +13,29 @@ namespace Simplelabs.Framework.Configuration.Elements
     /// <typeparam name="T">Elemento de la configuración</typeparam>
     public class ElementsCollection<T> : ConfigurationElementCollection where T : ConfigurationElement, IKeyElement, new()
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected override ConfigurationElement CreateNewElement()
         {
             return (ConfigurationElement)new T();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
         protected override object GetElementKey(ConfigurationElement element)
         {
             var obj = element as IKeyElement;
             return obj != null ? obj.Key : null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override ConfigurationElementCollectionType CollectionType
         {
             get

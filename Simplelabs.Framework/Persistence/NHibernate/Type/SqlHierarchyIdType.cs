@@ -10,10 +10,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simplelabs.Framework.Persistence.NHibernate
+namespace Simplelabs.Framework.Persistence.NHibernate.Type
 {
+    /// <summary>
+    /// Tipo para los objetos HierarchyId
+    /// </summary>
     [Serializable]
-    public class SqlHierarchyIdType : ImmutableType
+    internal class SqlHierarchyIdType : ImmutableType
     {
         /// <summary>
         /// Constructor
@@ -92,7 +95,7 @@ namespace Simplelabs.Framework.Persistence.NHibernate
         /// <summary>
         /// 
         /// </summary>
-        public override Type ReturnedClass
+        public override System.Type ReturnedClass
         {
             get { return typeof(SqlHierarchyId); }
         }

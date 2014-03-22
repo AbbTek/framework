@@ -23,6 +23,7 @@ using NHibernate.SqlCommand;
 using NHibernate.Type;
 using GeoAPI.Geometries;
 using NHibernate.Spatial.Dialect;
+using System.Linq;
 
 namespace NHibernate.Spatial.Criterion
 {
@@ -32,8 +33,9 @@ namespace NHibernate.Spatial.Criterion
 	[Serializable]
 	public class SpatialValidationCriterion : AbstractCriterion
 	{
-		private readonly string propertyName;
+		//private readonly string propertyName;
 		private readonly SpatialValidation validation;
+        private readonly IProjection projection;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SpatialValidationCriterion"/> class.
@@ -42,9 +44,20 @@ namespace NHibernate.Spatial.Criterion
 		/// <param name="validation">The validation.</param>
 		public SpatialValidationCriterion(string propertyName, SpatialValidation validation)
 		{
-			this.propertyName = propertyName;
+			this.projection = Projections.Property(propertyName);
 			this.validation = validation;
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="validation"></param>
+        public SpatialValidationCriterion(IProjection projection, SpatialValidation validation)
+        {
+            this.projection = projection;
+            this.validation = validation;
+        }
 
 		/// <summary>
 		/// Return typed values for all parameters in the rendered SQL fragment
@@ -80,15 +93,22 @@ namespace NHibernate.Spatial.Criterion
 		public override SqlString ToSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
 		{
 			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-			string[] columnsUsingProjection = criteriaQuery.GetColumnsUsingProjection(criteria, this.propertyName);
-			IType typeUsingProjection = criteriaQuery.GetTypeUsingProjection(criteria, this.propertyName);
-			if (typeUsingProjection.ReturnedClass != typeof(IGeometry))
+
+            SqlString[] columnsUsingProjection =
+                CriterionUtil.GetColumnNames(null, projection, criteriaQuery, criteria, enabledFilters);
+            
+            
+            
+            //string[] columnsUsingProjection = criteriaQuery.GetColumnsUsingProjection(criteria, this.propertyName);
+            IType typeUsingProjection = projection.GetTypes(criteria, criteriaQuery).Single();
+            			
+            if (typeUsingProjection.ReturnedClass != typeof(IGeometry))
 			{
-				throw new QueryException(string.Format("Type mismatch in {0}: {1} expected type {2}, actual type {3}", GetType(), this.propertyName, typeof(IGeometry), typeUsingProjection.ReturnedClass));
+				throw new QueryException(string.Format("Type mismatch in {0}: {1} expected type {2}, actual type {3}", GetType(), this.projection.ToString(), typeof(IGeometry), typeUsingProjection.ReturnedClass));
 			}
 			if (typeUsingProjection.IsCollectionType)
 			{
-				throw new QueryException(string.Format("cannot use collection property ({0}.{1}) directly in a criterion, use ICriteria.CreateCriteria instead", criteriaQuery.GetEntityName(criteria), this.propertyName));
+                throw new QueryException(string.Format("cannot use collection property ({0}.{1}) directly in a criterion, use ICriteria.CreateCriteria instead", criteriaQuery.GetEntityName(criteria), this.projection.ToString()));
 			}
 			SqlStringBuilder builder = new SqlStringBuilder(2 * columnsUsingProjection.Length);
 			for (int i = 0; i < columnsUsingProjection.Length; i++)
@@ -114,7 +134,7 @@ namespace NHibernate.Spatial.Criterion
 		/// </remarks>
 		public override string ToString()
 		{
-			return this.validation.ToString() + "(" + this.propertyName + ")";
+			return this.validation.ToString() + "(" + this.projection.ToString() + ")";
 		}
 	}
 }

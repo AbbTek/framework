@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Simplelabs.Framework.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,10 +65,19 @@
     <Compile Include="Configuration\FrameworkSettings.cs" />
     <Compile Include="Configuration\NHibernateSettings.cs" />
     <Compile Include="FrameworkException.cs" />
+    <Compile Include="Persistence\NHibernate\Criterion\IsDescendantOfExpression.cs" />
+    <Compile Include="Persistence\NHibernate\Criterion\SpecialRestrictions.cs" />
     <Compile Include="Persistence\NHibernate\AbstractSessionManager.cs" />
     <Compile Include="Persistence\NHibernate\NHibernateHttpModule.cs" />
+    <Compile Include="Persistence\NHibernate\Projections\GetAncestorProjection.cs" />
+    <Compile Include="Persistence\NHibernate\Projections\GetDescendantProjection.cs" />
+    <Compile Include="Persistence\NHibernate\Projections\GetLevelProjection.cs" />
+    <Compile Include="Persistence\NHibernate\Projections\GetReparentedValueProjection.cs" />
+    <Compile Include="Persistence\NHibernate\Projections\SpecialProjections.cs" />
+    <Compile Include="Persistence\NHibernate\Projections\ToHierarchyIdProjection.cs" />
+    <Compile Include="Persistence\NHibernate\Projections\ToStringMethodProjection.cs" />
     <Compile Include="Persistence\NHibernate\SessionFactory.cs" />
-    <Compile Include="Persistence\NHibernate\SqlHierarchyIdType.cs" />
+    <Compile Include="Persistence\NHibernate\Type\SqlHierarchyIdType.cs" />
     <Compile Include="Persistence\NHibernate\ThreadSessionManager.cs" />
     <Compile Include="Persistence\NHibernate\WebSessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Simplelabs.Framework.Utils
 {
+    /// <summary>
+    /// Utilidad para la reflección
+    /// </summary>
     public static class Reflection
     {
         /// <summary>
@@ -19,6 +22,13 @@ namespace Simplelabs.Framework.Utils
             return CreateObject<T>(typeName, null);
         }
 
+        /// <summary>
+        /// Crea una instancia por el nombre del tipo con parámetros
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="typeName"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static T CreateObject<T>(string typeName, object[] args) where T : class
         {
             var type = Type.GetType(typeName);

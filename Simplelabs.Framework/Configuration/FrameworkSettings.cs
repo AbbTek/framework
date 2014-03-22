@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace Simplelabs.Framework.Configuration
 {
+    /// <summary>
+    /// Configuración del Framework
+    /// </summary>
     public class FrameworkSettings : ConfigurationSection
     {
         private const string nhibernate = "nhibernate";
 
+        /// <summary>
+        /// 
+        /// </summary>
         [ConfigurationProperty(nhibernate)]
         public NHibernateSettings NHibernate
         {

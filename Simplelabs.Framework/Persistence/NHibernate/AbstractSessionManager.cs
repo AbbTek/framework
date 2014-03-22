@@ -22,9 +22,16 @@ namespace Simplelabs.Framework.Persistence.NHibernate
     /// </summary>
     public abstract class AbstractSessionManager
     {
+        /// <summary>
+        /// El constructor de sesiones
+        /// </summary>
         protected ISessionFactory sessionFactory;
         static internal Dictionary<string, global::NHibernate.Cfg.Configuration> cfgs = new Dictionary<string, global::NHibernate.Cfg.Configuration>();
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="sessionConfig"></param>
         public AbstractSessionManager(NHibernateSession sessionConfig)
         {
             var file = GetFile(sessionConfig);
@@ -39,8 +46,7 @@ namespace Simplelabs.Framework.Persistence.NHibernate
             }
 
             cfg.AddAuxiliaryDatabaseObject(new SpatialAuxiliaryDatabaseObject(cfg));
-            //Metadata.AddMapping(cfg, MetadataClass.GeometryColumn);
-            //Metadata.AddMapping(cfg, MetadataClass.SpatialReferenceSystem);
+
             var fcfg = Fluently.Configure(cfg);
             using (XmlTextReader reader = new XmlTextReader(file))
                 {
@@ -77,8 +83,20 @@ namespace Simplelabs.Framework.Persistence.NHibernate
             return filePath;
         }
 
+        /// <summary>
+        /// Obtiene o crea la sesión NHibernate 
+        /// </summary>
+        /// <returns></returns>
         public abstract ISession GetSession();
+        /// <summary>
+        /// Obtiene o crea la sesión NHibernate y agrega un interceptor
+        /// </summary>
+        /// <param name="interceptor"></param>
+        /// <returns></returns>
         public abstract ISession GetSession(IInterceptor interceptor);
+        /// <summary>
+        /// Cierra la sesión
+        /// </summary>
         public abstract void CloseSession();
     }
 }

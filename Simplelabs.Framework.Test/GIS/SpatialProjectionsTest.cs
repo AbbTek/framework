@@ -12,7 +12,7 @@ namespace Simplelabs.Framework.Test.GIS
     public class SpatialProjectionsTest
     {
         [TestMethod]
-        public void BufferTest()
+        public void Buffer()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
@@ -22,7 +22,7 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
-        public void Buffer2Test()
+        public void Buffer2()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
@@ -33,7 +33,7 @@ namespace Simplelabs.Framework.Test.GIS
 
 
         [TestMethod]
-        public void ContainsTest()
+        public void Contains()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
@@ -44,7 +44,7 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
-        public void Contains2Test()
+        public void Contains2()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
@@ -55,7 +55,7 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
-        public void ConvexHullTest()
+        public void ConvexHull()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
@@ -66,7 +66,7 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
-        public void ConvexHull2Test()
+        public void ConvexHull2()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
@@ -231,7 +231,6 @@ namespace Simplelabs.Framework.Test.GIS
             var r = criteria.List();
             Assert.IsTrue(r.Count > 0);
         }
-
 
         [TestMethod]
         public void Intersection()

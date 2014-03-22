@@ -84,6 +84,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Hbm2ddlTest.cs" />
     <Compile Include="BasicDomainTest.cs" />
+    <Compile Include="SpecialRestrictionsTest.cs" />
+    <Compile Include="SpecialProjectionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernate.Spatial.MsSql\NHibernate.Spatial.MsSql.csproj">

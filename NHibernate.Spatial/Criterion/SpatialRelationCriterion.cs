@@ -28,141 +28,160 @@ using System.Linq;
 
 namespace NHibernate.Spatial.Criterion
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class SpatialRelationCriterion : AbstractCriterion
-	{
-		private readonly string propertyName;
-		private readonly SpatialRelation relation;
-		private readonly object anotherGeometry;
+    /// <summary>
+    /// 
+    /// </summary>
+    [Serializable]
+    public class SpatialRelationCriterion : AbstractCriterion
+    {
+        private readonly SpatialRelation relation;
+        private readonly object anotherGeometry;
         private readonly IProjection projection;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SpatialRelationCriterion"/> class.
-		/// </summary>
-		/// <param name="propertyName">Name of the property.</param>
-		/// <param name="relation">The relation.</param>
-		/// <param name="anotherGeometry">Another geometry.</param>
-		public SpatialRelationCriterion(string propertyName, SpatialRelation relation, object anotherGeometry)
-		{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpatialRelationCriterion"/> class.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="relation">The relation.</param>
+        /// <param name="anotherGeometry">Another geometry.</param>
+        public SpatialRelationCriterion(string propertyName, SpatialRelation relation, object anotherGeometry)
+        {
             this.projection = Projections.Property(propertyName);
-			this.propertyName = propertyName;
-			this.relation = relation;
-			this.anotherGeometry = anotherGeometry;
-		}
+            this.relation = relation;
+            this.anotherGeometry = anotherGeometry;
+        }
 
-		/// <summary>
-		/// Return typed values for all parameters in the rendered SQL fragment
-		/// </summary>
-		/// <param name="criteria"></param>
-		/// <param name="criteriaQuery"></param>
-		/// <returns>
-		/// An array of TypedValues for the Expression.
-		/// </returns>
-		public override TypedValue[] GetTypedValues(ICriteria criteria, ICriteriaQuery criteriaQuery)
-		{
-			if (this.anotherGeometry is IGeometry)
-			{
-				return new TypedValue[] { criteriaQuery.GetTypedValue(criteria, propertyName, anotherGeometry) };
-			}
-			return new TypedValue[0];
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="relation"></param>
+        /// <param name="anotherGeometry"></param>
+        public SpatialRelationCriterion(IProjection projection, SpatialRelation relation, object anotherGeometry)
+        {
+            this.projection = projection;
+            this.relation = relation;
+            this.anotherGeometry = anotherGeometry;
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
+        /// <summary>
+        /// Return typed values for all parameters in the rendered SQL fragment
+        /// </summary>
+        /// <param name="criteria"></param>
+        /// <param name="criteriaQuery"></param>
+        /// <returns>
+        /// An array of TypedValues for the Expression.
+        /// </returns>
+        public override TypedValue[] GetTypedValues(ICriteria criteria, ICriteriaQuery criteriaQuery)
+        {
+            if (this.anotherGeometry is IGeometry)
+            {                
+                return CriterionUtil.GetTypedValues(criteriaQuery, criteria, projection, null, this.anotherGeometry);
+            }
+            return new TypedValue[0];
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override IProjection[] GetProjections()
-		{
+        {
             return new IProjection[] { projection };
-		}
+        }
 
-		/// <summary>
-		/// Render a SqlString for the expression.
-		/// </summary>
-		/// <param name="criteria"></param>
-		/// <param name="criteriaQuery"></param>
-		/// <param name="enabledFilters"></param>
-		/// <returns>
-		/// A SqlString that contains a valid Sql fragment.
-		/// </returns>
-		public override SqlString ToSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
-		{
-			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-			string[] columns1 = GetColumnNames(criteria, criteriaQuery, this.propertyName);
-			string[] columns2 = null;
-			if (!(this.anotherGeometry is IGeometry))
-			{
-				columns2 = GetColumnNames(criteria, criteriaQuery, (string)this.anotherGeometry);
-			}
+        /// <summary>
+        /// Render a SqlString for the expression.
+        /// </summary>
+        /// <param name="criteria"></param>
+        /// <param name="criteriaQuery"></param>
+        /// <param name="enabledFilters"></param>
+        /// <returns>
+        /// A SqlString that contains a valid Sql fragment.
+        /// </returns>
+        public override SqlString ToSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
+        {
+            ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
+
+            SqlString[] columns1 =
+                CriterionUtil.GetColumnNames(null, projection, criteriaQuery, criteria, enabledFilters);
             
-			SqlStringBuilder builder = new SqlStringBuilder(10 * columns1.Length);
-            Parameter[] parameter = criteriaQuery.NewQueryParameter(CriterionUtil.GetTypedValues(criteriaQuery,criteria,projection,propertyName,new object[]{this.anotherGeometry}).Single()).ToArray();
-			for (int i = 0; i < columns1.Length; i++)
-			{
-				if (i > 0)
-				{
-					builder.Add(" AND ");
-				}
-				if (this.anotherGeometry is IGeometry)
-				{
-                    builder.Add(spatialDialect.GetSpatialRelationString(columns1[i], this.relation, parameter[i], true));                    
-				}
-				else
-				{
-					builder.Add(spatialDialect.GetSpatialRelationString(columns1[i], this.relation, columns2[i], true));
-				}
-                                
-			}
-            
-			return builder.ToSqlString();
-		}
+            string[] columns2 = null;
 
-		/// <summary>
-		/// Gets the column names.
-		/// </summary>
-		/// <param name="criteria">The criteria.</param>
-		/// <param name="criteriaQuery">The criteria query.</param>
-		/// <param name="propertyName">Name of the property.</param>
-		/// <returns></returns>
-		private string[] GetColumnNames(ICriteria criteria, ICriteriaQuery criteriaQuery, string propertyName)
-		{
-			string[] columns = criteriaQuery.GetColumnsUsingProjection(criteria, propertyName);
-			IType type = criteriaQuery.GetTypeUsingProjection(criteria, propertyName);
-			if (type.ReturnedClass != typeof(IGeometry))
-			{
-				throw new QueryException(string.Format("Type mismatch in {0}: {1} expected type {2}, actual type {3}", base.GetType(), propertyName, typeof(IGeometry), type.ReturnedClass));
-			}
-			if (type.IsCollectionType)
-			{
-				throw new QueryException(string.Format("cannot use collection property ({0}.{1}) directly in a criterion, use ICriteria.CreateCriteria instead", criteriaQuery.GetEntityName(criteria), propertyName));
-			}
-			return columns;
-		}
+            if (!(this.anotherGeometry is IGeometry))
+            {
+                columns2 = GetColumnNames(criteria, criteriaQuery, (string)this.anotherGeometry);
+            }
 
-		/// <summary>
-		/// Gets a string representation of the <see cref="T:NHibernate.Criterion.AbstractCriterion"/>.
-		/// </summary>
-		/// <returns>
-		/// A String that shows the contents of the <see cref="T:NHibernate.Criterion.AbstractCriterion"/>.
-		/// </returns>
-		/// <remarks>
-		/// This is not a well formed Sql fragment.  It is useful for logging what the <see cref="T:NHibernate.Criterion.AbstractCriterion"/>
-		/// looks like.
-		/// </remarks>
-		public override string ToString()
-		{
-			return new StringBuilder()
-				.Append(this.relation)
-				.Append("(")
-				.Append(this.propertyName)
-				.Append(", ")
-				.Append((this.anotherGeometry is IGeometry ? "<IGeometry>" : this.anotherGeometry.ToString()))
-				.Append(")")
-				.ToString();
-		}
+            SqlStringBuilder builder = new SqlStringBuilder(10 * columns1.Length);
 
-	}
+            Parameter[] parameters = criteriaQuery.NewQueryParameter(
+                CriterionUtil.GetTypedValues(criteriaQuery, criteria, projection, null, this.anotherGeometry).Single()).ToArray();
+
+
+            for (int i = 0; i < columns1.Length; i++)
+            {
+                if (i > 0)
+                {
+                    builder.Add(" AND ");
+                }
+                if (this.anotherGeometry is IGeometry)
+                {
+                    builder.Add(spatialDialect.GetSpatialRelationString(columns1[i], this.relation, parameters[i], true));
+                }
+                else
+                {
+                    builder.Add(spatialDialect.GetSpatialRelationString(columns1[i], this.relation, columns2[i], true));
+                }
+
+            }
+
+            return builder.ToSqlString();
+        }
+
+        /// <summary>
+        /// Gets the column names.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="criteriaQuery">The criteria query.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns></returns>
+        private string[] GetColumnNames(ICriteria criteria, ICriteriaQuery criteriaQuery, string propertyName)
+        {
+            string[] columns = criteriaQuery.GetColumnsUsingProjection(criteria, propertyName);
+            IType type = criteriaQuery.GetTypeUsingProjection(criteria, propertyName);
+            if (type.ReturnedClass != typeof(IGeometry))
+            {
+                throw new QueryException(string.Format("Type mismatch in {0}: {1} expected type {2}, actual type {3}", base.GetType(), propertyName, typeof(IGeometry), type.ReturnedClass));
+            }
+            if (type.IsCollectionType)
+            {
+                throw new QueryException(string.Format("cannot use collection property ({0}.{1}) directly in a criterion, use ICriteria.CreateCriteria instead", criteriaQuery.GetEntityName(criteria), propertyName));
+            }
+            return columns;
+        }
+
+        /// <summary>
+        /// Gets a string representation of the <see cref="T:NHibernate.Criterion.AbstractCriterion"/>.
+        /// </summary>
+        /// <returns>
+        /// A String that shows the contents of the <see cref="T:NHibernate.Criterion.AbstractCriterion"/>.
+        /// </returns>
+        /// <remarks>
+        /// This is not a well formed Sql fragment.  It is useful for logging what the <see cref="T:NHibernate.Criterion.AbstractCriterion"/>
+        /// looks like.
+        /// </remarks>
+        public override string ToString()
+        {
+            return new StringBuilder()
+                .Append(this.relation)
+                .Append("(")
+                .Append(this.projection.ToString())
+                .Append(", ")
+                .Append((this.anotherGeometry is IGeometry ? "<IGeometry>" : this.anotherGeometry.ToString()))
+                .Append(")")
+                .ToString();
+        }
+
+    }
 }

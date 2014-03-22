@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Simplelabs.Framework.Configuration
-{  
-    public static class CManager
+{      
+    internal static class CManager
     {
         public const string SectionName = "simplelabs.framework";
         private static FrameworkSettings frameworkSetting = (FrameworkSettings)ConfigurationManager.GetSection(SectionName);
