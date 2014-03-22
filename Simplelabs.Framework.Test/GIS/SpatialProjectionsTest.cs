@@ -110,6 +110,17 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
+        public void Covers2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.Covers(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+        [TestMethod]
         public void Crosses()
         {
             var session = SessionFactory.GetSession();
@@ -119,6 +130,18 @@ namespace Simplelabs.Framework.Test.GIS
             var r = criteria.List();
             Assert.IsTrue(r.Count > 0);
         }
+
+        [TestMethod]
+        public void Crosses2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.Crosses(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
 
         [TestMethod]
         public void Difference()
@@ -132,11 +155,33 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
+        public void Difference2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.Crosses(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+        [TestMethod]
         public void Disjoint()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
             criteria.SetProjection(SpatialProjections.Disjoint("Referencia", "Referencia"));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+        [TestMethod]
+        public void Disjoint2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.Disjoint(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
             criteria.SetMaxResults(10);
             var r = criteria.List();
             Assert.IsTrue(r.Count > 0);
@@ -154,19 +199,16 @@ namespace Simplelabs.Framework.Test.GIS
             Assert.IsTrue(r.Count > 0);
         }
 
-
         [TestMethod]
-        [ExpectedException(typeof(NotImplementedException))]
-        public void Envelope()
+        public void Distance2()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
-            criteria.SetProjection(SpatialProjections.Envelope("Referencia"));
+            criteria.SetProjection(SpatialProjections.Distance(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
             criteria.SetMaxResults(10);
             var r = criteria.List();
             Assert.IsTrue(r.Count > 0);
         }
-
 
         [TestMethod]
         public void Equals()
@@ -180,14 +222,26 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotImplementedException))]
+        public void Equals2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.Equals(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+
+        [TestMethod]
         public void Intersection()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
-            criteria.SetProjection(SpatialProjections.Intersection("Referencia"));
+            criteria.SetProjection(SpatialProjections.Intersection("Referencia", "Referencia"));
             criteria.SetMaxResults(10);
             var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
         }
 
         [TestMethod]
@@ -195,7 +249,7 @@ namespace Simplelabs.Framework.Test.GIS
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
-            criteria.SetProjection(SpatialProjections.Intersection("Referencia", "Referencia"));
+            criteria.SetProjection(SpatialProjections.Intersection(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
             criteria.SetMaxResults(10);
             var r = criteria.List();
             Assert.IsTrue(r.Count > 0);
@@ -213,11 +267,33 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
+        public void Intersects2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.Intersects(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+        [TestMethod]
         public void IsClosed()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
             criteria.SetProjection(SpatialProjections.IsClosed("Referencia"));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+        [TestMethod]
+        public void IsClosed2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.IsClosed(Projections.Property<Direccion>(d=>d.Referencia)));
             criteria.SetMaxResults(10);
             var r = criteria.List();
             Assert.IsTrue(r.Count > 0);
@@ -235,11 +311,34 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
+        public void IsEmpty2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.IsEmpty(Projections.Property<Direccion>(d => d.Referencia)));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+
+        [TestMethod]
         public void IsRing()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
             criteria.SetProjection(SpatialProjections.IsRing("Referencia"));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+        [TestMethod]
+        public void IsRing2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.IsRing(Projections.Property<Direccion>(d => d.Referencia)));
             criteria.SetMaxResults(10);
             var r = criteria.List();
             Assert.IsTrue(r.Count > 0);
@@ -257,11 +356,33 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
+        public void IsSimple2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.IsSimple(Projections.Property<Direccion>(d => d.Referencia)));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+        [TestMethod]
         public void IsValid()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
             criteria.SetProjection(SpatialProjections.IsValid("Referencia"));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+        [TestMethod]
+        public void IsValid2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.IsValid(Projections.Property<Direccion>(d => d.Referencia)));
             criteria.SetMaxResults(10);
             var r = criteria.List();
             Assert.IsTrue(r.Count > 0);
@@ -279,11 +400,33 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
+        public void Overlaps2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.Overlaps(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+        [TestMethod]
         public void SymDifference()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
             criteria.SetProjection(SpatialProjections.SymDifference("Referencia", "Referencia"));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
+
+        [TestMethod]
+        public void SymDifference2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.SymDifference(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
             criteria.SetMaxResults(10);
             var r = criteria.List();
             Assert.IsTrue(r.Count > 0);
@@ -301,12 +444,11 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotImplementedException))]
-        public void Transform()
+        public void Touches2()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
-            criteria.SetProjection(SpatialProjections.Transform("Referencia", 15));
+            criteria.SetProjection(SpatialProjections.Touches(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
             criteria.SetMaxResults(10);
             var r = criteria.List();
             Assert.IsTrue(r.Count > 0);
@@ -324,12 +466,11 @@ namespace Simplelabs.Framework.Test.GIS
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotImplementedException))]
         public void Union2()
         {
             var session = SessionFactory.GetSession();
             var criteria = session.CreateCriteria<Direccion>();
-            criteria.SetProjection(SpatialProjections.Union("Referencia"));
+            criteria.SetProjection(SpatialProjections.Union(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
             criteria.SetMaxResults(10);
             var r = criteria.List();
             Assert.IsTrue(r.Count > 0);
@@ -346,7 +487,16 @@ namespace Simplelabs.Framework.Test.GIS
             Assert.IsTrue(r.Count > 0);
         }
 
-
+        [TestMethod]
+        public void Within2()
+        {
+            var session = SessionFactory.GetSession();
+            var criteria = session.CreateCriteria<Direccion>();
+            criteria.SetProjection(SpatialProjections.Within(Projections.Property<Direccion>(d => d.Referencia), Projections.Property<Direccion>(d => d.Referencia)));
+            criteria.SetMaxResults(10);
+            var r = criteria.List();
+            Assert.IsTrue(r.Count > 0);
+        }
 
         [TestInitialize]
         public void Init()

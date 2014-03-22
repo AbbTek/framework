@@ -53,6 +53,14 @@ namespace NHibernate.Spatial.Criterion
 			this.envelope.SRID = srid;
 		}
 
+        public SpatialFilterCriterion(IProjection projection, Envelope envelope, int srid)
+        {
+            //this.propertyName = projection.
+            this.projection = projection;
+            this.envelope = GeometryFactory.Default.ToGeometry(envelope);
+            this.envelope.SRID = srid;
+        }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SpatialFilterCriterion"/> class.
 		/// </summary>
@@ -100,7 +108,9 @@ namespace NHibernate.Spatial.Criterion
 		{
 			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
 			string[] columnsUsingProjection = criteriaQuery.GetColumnsUsingProjection(criteria, this.propertyName);
+            
 			IType typeUsingProjection = criteriaQuery.GetTypeUsingProjection(criteria, this.propertyName);
+            
 			if (typeUsingProjection.IsCollectionType)
 			{
 				throw new QueryException(string.Format("cannot use collection property ({0}.{1}) directly in a criterion, use ICriteria.CreateCriteria instead", criteriaQuery.GetEntityName(criteria), this.propertyName));

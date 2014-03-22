@@ -222,16 +222,16 @@ namespace NHibernate.Spatial.Dialect
 		/// <returns></returns>
 		public abstract IGeometryUserType CreateGeometryUserType();
 
-		/// <summary>
-		/// Gets the spatial transform string.
-		/// </summary>
-		/// <param name="geometry">The geometry.</param>
-		/// <param name="srid">The srid.</param>
-		/// <returns></returns>
-		public SqlString GetSpatialTransformString(object geometry, int srid)
-		{
-			throw new NotImplementedException();
-		}
+        ///// <summary>
+        ///// Gets the spatial transform string.
+        ///// </summary>
+        ///// <param name="geometry">The geometry.</param>
+        ///// <param name="srid">The srid.</param>
+        ///// <returns></returns>
+        //public SqlString GetSpatialTransformString(object geometry, int srid)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 		/// <summary>
 		/// Gets the spatial aggregate string.

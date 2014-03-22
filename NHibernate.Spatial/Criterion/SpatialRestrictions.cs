@@ -69,6 +69,8 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialRelationCriterion(propertyName, SpatialRelation.Contains, anotherGeometry);
 		}
 
+
+
 		/// <summary>
 		/// Determines whether the specified geometry property is covered by another geometry.
 		/// </summary>

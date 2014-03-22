@@ -131,6 +131,11 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialAnalysisProjection(propertyName, SpatialAnalysis.Difference, anotherPropertyName);
 		}
 
+        public static SpatialProjection Difference(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialAnalysisProjection(projection, SpatialAnalysis.Difference, anotherProjection);
+        }
+
 		/// <summary>
 		/// Distance of the specified property names.
 		/// </summary>
@@ -140,6 +145,17 @@ namespace NHibernate.Spatial.Criterion
 		public static SpatialProjection Distance(string propertyName, string anotherPropertyName)
 		{
 			return new SpatialAnalysisProjection(propertyName, SpatialAnalysis.Distance, anotherPropertyName);
+		}
+
+        /// <summary>
+        /// Distance of the specified property names.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Distance(IProjection projection, IProjection anotherProjection)
+		{
+            return new SpatialAnalysisProjection(projection, SpatialAnalysis.Distance, anotherProjection);
 		}
 
 		/// <summary>
@@ -153,6 +169,17 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialAnalysisProjection(propertyName, SpatialAnalysis.Intersection, anotherPropertyName);
 		}
 
+        /// <summary>
+        /// Intersection of the specified property names.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Intersection(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialAnalysisProjection(projection, SpatialAnalysis.Intersection, anotherProjection);
+        }
+
 		/// <summary>
 		/// Symmetric difference of the specified property names.
 		/// </summary>
@@ -164,6 +191,17 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialAnalysisProjection(propertyName, SpatialAnalysis.SymDifference, anotherPropertyName);
 		}
 
+        /// <summary>
+        /// Symmetric difference of the specified property names.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection SymDifference(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialAnalysisProjection(projection, SpatialAnalysis.SymDifference, anotherProjection);
+        }
+
 		/// <summary>
 		/// Union of the specified property names.
 		/// </summary>
@@ -174,6 +212,17 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return new SpatialAnalysisProjection(propertyName, SpatialAnalysis.Union, anotherPropertyName);
 		}
+
+        /// <summary>
+        /// Union of the specified property names.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <returns></returns>
+        public static SpatialProjection Union(IProjection projection, IProjection anotherProjection)
+        {
+            return new SpatialAnalysisProjection(projection, SpatialAnalysis.Union, anotherProjection);
+        }
 
 		#endregion
 
@@ -411,6 +460,19 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialRelateProjection(propertyName, anotherPropertyName, pattern);
 		}
 
+        /// <summary>
+        /// Determines whether the specified geometry property relates to another geometry property.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        public static SpatialProjection Relate(IProjection projection, IProjection anotherProjection, string pattern)
+        {
+            return new SpatialRelateProjection(projection, anotherProjection, pattern);
+        }
+
+
 		#endregion
 
 		#region Validations
@@ -425,6 +487,16 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialValidationProjection(propertyName, SpatialValidation.IsClosed);
 		}
 
+        /// <summary>
+        /// Determines whether the specified geometry property is closed.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <returns></returns>
+        public static SpatialProjection IsClosed(IProjection projection)
+        {
+            return new SpatialValidationProjection(projection, SpatialValidation.IsClosed);
+        }
+
 		/// <summary>
 		/// Determines whether the specified geometry property is empty.
 		/// </summary>
@@ -434,6 +506,16 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return new SpatialValidationProjection(propertyName, SpatialValidation.IsEmpty);
 		}
+
+        /// <summary>
+        /// Determines whether the specified geometry property is empty.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <returns></returns>
+        public static SpatialProjection IsEmpty(IProjection projection)
+        {
+            return new SpatialValidationProjection(projection, SpatialValidation.IsEmpty);
+        }
 
 		/// <summary>
 		/// Determines whether the specified geometry property is ring.
@@ -445,6 +527,16 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialValidationProjection(propertyName, SpatialValidation.IsRing);
 		}
 
+        /// <summary>
+        /// Determines whether the specified geometry property is ring.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <returns></returns>
+        public static SpatialProjection IsRing(IProjection projection)
+        {
+            return new SpatialValidationProjection(projection, SpatialValidation.IsRing);
+        }
+
 		/// <summary>
 		/// Determines whether the specified geometry property is simple.
 		/// </summary>
@@ -454,6 +546,16 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return new SpatialValidationProjection(propertyName, SpatialValidation.IsSimple);
 		}
+
+        /// <summary>
+        /// Determines whether the specified geometry property is simple.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <returns></returns>
+        public static SpatialProjection IsSimple(IProjection projection)
+        {
+            return new SpatialValidationProjection(projection, SpatialValidation.IsSimple);
+        }
 
 		/// <summary>
 		/// Determines whether the specified geometry property is valid.
@@ -465,23 +567,17 @@ namespace NHibernate.Spatial.Criterion
 			return new SpatialValidationProjection(propertyName, SpatialValidation.IsValid);
 		}
 
-		#endregion
-
-		#region Functions
-
-		/// <summary>
-		/// Transforms the coordinate reference system of the specified geometry property.
-		/// </summary>
-		/// <param name="propertyName">Name of the property.</param>
-		/// <param name="srid">The srid.</param>
-		/// <returns></returns>
-		public static SpatialProjection Transform(string propertyName, int srid)
-		{
-			return new SpatialTransformProjection(propertyName, srid);
-		}
+        /// <summary>
+        /// Determines whether the specified geometry property is valid.
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <returns></returns>
+        public static SpatialProjection IsValid(IProjection projection)
+        {
+            return new SpatialValidationProjection(projection, SpatialValidation.IsValid);
+        }
 
 		#endregion
-
 	}
 
 }

@@ -24,56 +24,77 @@ using NHibernate.Type;
 
 namespace NHibernate.Spatial.Criterion
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	[Serializable]
-	public class SpatialValidationProjection : SpatialProjection
-	{
-		private readonly SpatialValidation validation;
+    /// <summary>
+    /// 
+    /// </summary>
+    [Serializable]
+    public class SpatialValidationProjection : SpatialProjection
+    {
+        private readonly SpatialValidation validation;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SpatialValidationProjection"/> class.
-		/// </summary>
-		/// <param name="propertyName">Name of the property.</param>
-		/// <param name="validation">The validation.</param>
-		public SpatialValidationProjection(string propertyName, SpatialValidation validation)
-			: base(propertyName)
-		{
-			this.validation = validation;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpatialValidationProjection"/> class.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="validation">The validation.</param>
+        public SpatialValidationProjection(string propertyName, SpatialValidation validation)
+            : base(propertyName)
+        {
+            this.validation = validation;
+        }
 
-		/// <summary>
-		/// Gets the types.
-		/// </summary>
-		/// <param name="criteria">The criteria.</param>
-		/// <param name="criteriaQuery">The criteria query.</param>
-		/// <returns></returns>
-		public override IType[] GetTypes(ICriteria criteria, ICriteriaQuery criteriaQuery)
-		{
-			return new IType[] { NHibernateUtil.Boolean };
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="validation"></param>
+        public SpatialValidationProjection(IProjection projection, SpatialValidation validation)
+            : base(projection)
+        {
+            this.validation = validation;
+        }
 
-		/// <summary>
-		/// Render the SQL Fragment.
-		/// </summary>
-		/// <param name="criteria"></param>
-		/// <param name="position"></param>
-		/// <param name="criteriaQuery"></param>
-		/// <param name="enabledFilters"></param>
-		/// <returns></returns>
-		public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
-		{
-			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-			string column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
-			SqlString sqlString = spatialDialect.GetSpatialValidationString(column1, this.validation, false);
-			return new SqlStringBuilder()
-				.Add(sqlString)
-				.Add(" as y")
-				.Add(position.ToString())
-				.Add("_")
-				.ToSqlString();
-		}
+        /// <summary>
+        /// Gets the types.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="criteriaQuery">The criteria query.</param>
+        /// <returns></returns>
+        public override IType[] GetTypes(ICriteria criteria, ICriteriaQuery criteriaQuery)
+        {
+            return new IType[] { NHibernateUtil.Boolean };
+        }
+
+        /// <summary>
+        /// Render the SQL Fragment.
+        /// </summary>
+        /// <param name="criteria"></param>
+        /// <param name="position"></param>
+        /// <param name="criteriaQuery"></param>
+        /// <param name="enabledFilters"></param>
+        /// <returns></returns>
+        public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
+        {
+            ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
+            SqlString sqlString = null;
+            if (this.propertyName != null)
+            {
+                string column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
+                sqlString = spatialDialect.GetSpatialValidationString(column1, this.validation, false);
+            }
+            else
+            {
+                var obj1 = SqlStringHelper.RemoveAsAliasesFromSql(projection.ToSqlString(criteria, position, criteriaQuery, enabledFilters));
+                sqlString = spatialDialect.GetSpatialValidationString(obj1, this.validation, false);
+            }
+
+            return new SqlStringBuilder()
+                .Add(sqlString)
+                .Add(" as y")
+                .Add(position.ToString())
+                .Add("_")
+                .ToSqlString();
+        }
 
 
         public override SqlString ToSqlString(string column, ISpatialDialect spatialDialect)

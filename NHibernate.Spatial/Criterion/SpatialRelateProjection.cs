@@ -32,6 +32,7 @@ namespace NHibernate.Spatial.Criterion
     {
         private readonly string anotherPropertyName;
         private readonly string pattern;
+        private readonly IProjection anotherProjection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialRelateProjection"/> class.
@@ -46,6 +47,18 @@ namespace NHibernate.Spatial.Criterion
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        public SpatialRelateProjection(IProjection projection, IProjection anotherProjection)
+            : base(projection)
+        {
+            this.anotherProjection = anotherProjection;
+            this.pattern = null;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SpatialRelateProjection"/> class.
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
@@ -55,6 +68,19 @@ namespace NHibernate.Spatial.Criterion
             : base(propertyName)
         {
             this.anotherPropertyName = anotherPropertyName;
+            this.pattern = pattern;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projection"></param>
+        /// <param name="anotherProjection"></param>
+        /// <param name="pattern"></param>
+        public SpatialRelateProjection(IProjection projection, IProjection anotherProjection, string pattern)
+            : base(projection)
+        {
+            this.anotherProjection = anotherProjection;
             this.pattern = pattern;
         }
 
@@ -84,11 +110,20 @@ namespace NHibernate.Spatial.Criterion
         public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
         {
             ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-            string column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
-            string column2 = criteriaQuery.GetColumn(criteria, this.anotherPropertyName);
+            SqlString sqlString = null;
 
-            SqlString sqlString = spatialDialect.GetSpatialRelateString(column1, column2, this.pattern, this.pattern != null, false);
-
+            if (this.propertyName != null)
+            {
+                string column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
+                string column2 = criteriaQuery.GetColumn(criteria, this.anotherPropertyName);
+                sqlString = spatialDialect.GetSpatialRelateString(column1, column2, this.pattern, this.pattern != null, false);
+            }
+            else
+            {
+                var obj1 = SqlStringHelper.RemoveAsAliasesFromSql(projection.ToSqlString(criteria, position, criteriaQuery, enabledFilters));
+                var obj2 = SqlStringHelper.RemoveAsAliasesFromSql(anotherProjection.ToSqlString(criteria, position, criteriaQuery, enabledFilters));
+                sqlString = spatialDialect.GetSpatialRelateString(obj1, obj2, this.pattern, this.pattern != null, false);
+            }
             return new SqlStringBuilder()
                 .Add(sqlString)
                 .Add(" as y")

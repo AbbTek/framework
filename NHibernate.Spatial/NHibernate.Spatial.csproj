@@ -65,7 +65,6 @@
     <Compile Include="Criterion\SpatialRelationCriterion.cs" />
     <Compile Include="Criterion\SpatialRelationProjection.cs" />
     <Compile Include="Criterion\SpatialRestrictions.cs" />
-    <Compile Include="Criterion\SpatialTransformProjection.cs" />
     <Compile Include="Criterion\SpatialValidationCriterion.cs" />
     <Compile Include="Criterion\SpatialValidationProjection.cs" />
     <Compile Include="Dialect\Function\SpatialAnalysisFunction.cs" />
