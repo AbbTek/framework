@@ -8,10 +8,11 @@
     <owners>$author$</owners>
 
     <projectUrl>http://www.simplelabs.io</projectUrl>
+    <iconUrl>http://s3.amazonaws.com/simplelabs-io/images/nuget/Icon.png</iconUrl>
 
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Primera versión</releaseNotes>
+    <releaseNotes>Primera versión. Soporte para Spatial y HierarchyId de SQL Server</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>Simplelabs, NHibernate, ORM</tags>
     <dependencies>
