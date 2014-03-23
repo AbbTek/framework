@@ -18,6 +18,6 @@
     <dependencies>
       <dependency id="NHibernate" version="3.3.3.4001" />
       <dependency id="NetTopologySuite" version="1.13.2"  />
-    </dependencies>
+    </dependencies>    
   </metadata>
 </package>

@@ -22,27 +22,27 @@ namespace Simplelabs.Framework.Persistence.NHibernate
         public override global::NHibernate.ISession GetSession(global::NHibernate.IInterceptor interceptor)
         {
             ISession session = null;
-            if (ManagedWebSessionContext.HasBind(HttpContext.Current, sessionFactory))
+            if (WebSessionContext.HasBind(sessionFactory))
             {
                 session = this.sessionFactory.GetCurrentSession();
             }
             else
             {
                 session = interceptor != null ? sessionFactory.OpenSession(interceptor) : sessionFactory.OpenSession();
-                ManagedWebSessionContext.Bind(HttpContext.Current, session);
+                WebSessionContext.Bind(session);
              }
             return session;
         }
 
         public override void CloseSession()
         {
-            if (ManagedWebSessionContext.HasBind(HttpContext.Current, sessionFactory))
+            if (WebSessionContext.HasBind(sessionFactory))
             {
                 var session = this.sessionFactory.GetCurrentSession();
                 if (session != null && session.IsOpen)
                 {
                     session.Close();
-                    ManagedWebSessionContext.Unbind(HttpContext.Current, sessionFactory);
+                    WebSessionContext.Unbind(sessionFactory);
                 }
             }
         }

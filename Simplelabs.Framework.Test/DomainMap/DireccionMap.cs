@@ -18,6 +18,7 @@ namespace Simplelabs.Framework.Test.DomainMap
             Map(x => x.Numero);
             Map(x => x.Referencia)
                 .CustomType<GeometryType>();
+            Map(x => x.TextoReferencia);
         }
     }
 }

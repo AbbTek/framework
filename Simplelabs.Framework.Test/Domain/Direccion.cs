@@ -13,5 +13,6 @@ namespace Simplelabs.Framework.Test.Domain
         public virtual string Calle { get; set; }
         public virtual string Numero { get; set; }
         public virtual IPoint Referencia { get; set; }
+        public virtual string TextoReferencia { get; set; }
     }
 }
