@@ -9,15 +9,14 @@
 
     <projectUrl>http://www.simplelabs.io</projectUrl>
     <iconUrl>http://s3.amazonaws.com/simplelabs-io/images/nuget/Icon.png</iconUrl>
-
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>Primera versión. Soporte para Spatial y HierarchyId de SQL Server</releaseNotes>
+    <summary>Framework principalmente para el uso de NHibernate</summary>
     <copyright>Copyright 2014</copyright>
     <tags>Simplelabs, NHibernate, ORM</tags>
     <dependencies>
       <dependency id="NHibernate" version="3.3.3.4001" />
-      <dependency id="Microsoft.SqlServer.Types" version="11.0.1" />
       <dependency id="NetTopologySuite" version="1.13.2"  />
     </dependencies>
   </metadata>
