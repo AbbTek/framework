@@ -61,7 +61,7 @@ namespace NHibernate.Spatial.Dialect
 		/// </para>
 		/// 
 		/// </remarks>
-		[ThreadStatic]
+		//[ThreadStatic]
 		public static ISpatialDialect LastInstantiated;
 
 		#region Utility methods

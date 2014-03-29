@@ -50,7 +50,7 @@ namespace Simplelabs.Framework.Persistence.NHibernate
             {
                 case "web":
                     return new WebSessionManager(sessionFactory);
-                case "thread":
+                case "thread_static":
                     return new ThreadSessionManager(sessionFactory);
                 default:
                     return Reflection.CreateObject<AbstractSessionManager>(name, new object[]{ sessionFactory});;

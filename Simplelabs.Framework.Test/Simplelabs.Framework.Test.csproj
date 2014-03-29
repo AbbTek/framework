@@ -86,6 +86,7 @@
     <Compile Include="BasicDomainTest.cs" />
     <Compile Include="SpecialRestrictionsTest.cs" />
     <Compile Include="SpecialProjectionsTest.cs" />
+    <Compile Include="NHibernateTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernate.Spatial.MsSql\NHibernate.Spatial.MsSql.csproj">
