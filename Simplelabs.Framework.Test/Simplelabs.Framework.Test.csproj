@@ -75,8 +75,10 @@
     <Compile Include="DomainMap\DireccionMap.cs" />
     <Compile Include="DomainMap\PersonaMap.cs" />
     <Compile Include="DomainMap\UnidadGeopoliticaMap.cs" />
+    <Compile Include="DomainMap\UnidadMap.cs" />
     <Compile Include="Domain\Direccion.cs" />
     <Compile Include="Domain\Persona.cs" />
+    <Compile Include="Domain\Unidad.cs" />
     <Compile Include="Domain\UnidadGeopolitica.cs" />
     <Compile Include="GIS\SpatialProjectionsTest.cs" />
     <Compile Include="GIS\RelateTest.cs" />

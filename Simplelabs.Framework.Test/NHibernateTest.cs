@@ -26,11 +26,21 @@ namespace Simplelabs.Framework.Test
         }
 
         [TestMethod]
-        public void QueryHintNoLock()
+        public void QueryHintIndex()
         {
             var session = SessionFactory.GetSession(new QueryHintInterceptor());
             var c = session.CreateCriteria<Direccion>();
-            c.QueryHintNoLock("Direccion");
+            c.QueryHintIndex("Direccion","IX_Direccion_1");
+            c.SetMaxResults(1);
+            var l = c.List();
+        }
+
+        [TestMethod]
+        public void QueryHintIndex2()
+        {
+            var session = SessionFactory.GetSession(new QueryHintInterceptor());
+            var c = session.CreateCriteria<Unidad>();
+            c.QueryHintIndex("TestSchema.[Unidad]", "IX_TestSchema_Unidad_1");
             c.SetMaxResults(1);
             var l = c.List();
         }
