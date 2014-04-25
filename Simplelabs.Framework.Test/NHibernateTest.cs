@@ -4,6 +4,8 @@ using Simplelabs.Framework.Persistence.NHibernate;
 using NHibernate;
 using NHibernate.Spatial.Type;
 using System.Threading.Tasks;
+using Simplelabs.Framework.Test.Domain;
+using Simplelabs.Framework.Persistence.NHibernate.Extensions;
 
 namespace Simplelabs.Framework.Test
 {
@@ -21,7 +23,16 @@ namespace Simplelabs.Framework.Test
                     .AddScalar("Referencia", NHibernateUtil.Custom(typeof(GeometryType)));
                 var l = sql.List();
             });
+        }
 
+        [TestMethod]
+        public void QueryHintNoLock()
+        {
+            var session = SessionFactory.GetSession(new QueryHintInterceptor());
+            var c = session.CreateCriteria<Direccion>();
+            c.QueryHintNoLock("Direccion");
+            c.SetMaxResults(1);
+            var l = c.List();
         }
     }
 }

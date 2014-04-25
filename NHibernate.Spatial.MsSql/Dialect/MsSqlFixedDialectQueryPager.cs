@@ -259,16 +259,25 @@ namespace NHibernate.Spatial.Dialect
 
 		private int GetAfterSelectInsertPoint()
 		{
-			if (_sourceQuery.StartsWithCaseInsensitive("select distinct"))
-			{
-				return 15;
-			}
-			if (_sourceQuery.StartsWithCaseInsensitive("select"))
-			{
-				return 6;
-			}
-			throw new NotSupportedException("The query should start with 'SELECT' or 'SELECT DISTINCT'");
-		}
+            return GetAfterSelectInsertPoint(_sourceQuery);
+	    }
+
+        private static int GetAfterSelectInsertPoint(SqlString sql)
+        {
+            Int32 selectPosition;
+
+            if ((selectPosition = sql.IndexOfCaseInsensitive("select distinct")) >= 0)
+            {
+                return selectPosition + 15; // "select distinct".Length;
+
+            }
+            if ((selectPosition = sql.IndexOfCaseInsensitive("select")) >= 0)
+            {
+                return selectPosition + 6; // "select".Length;
+            }
+
+            throw new NotSupportedException("The query should start with 'SELECT' or 'SELECT DISTINCT'");
+        }
 
 		/// <remarks>
 		/// Perhaps SqlString should have these types of method on it...

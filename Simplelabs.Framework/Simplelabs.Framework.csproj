@@ -69,6 +69,7 @@
     <Compile Include="Persistence\NHibernate\Criterion\IsDescendantOfExpression.cs" />
     <Compile Include="Persistence\NHibernate\Criterion\SpecialRestrictions.cs" />
     <Compile Include="Persistence\NHibernate\AbstractSessionManager.cs" />
+    <Compile Include="Persistence\NHibernate\Extensions\NHibernateQueryExtensions.cs" />
     <Compile Include="Persistence\NHibernate\NHibernateHttpModule.cs" />
     <Compile Include="Persistence\NHibernate\Projections\GetAncestorProjection.cs" />
     <Compile Include="Persistence\NHibernate\Projections\GetDescendantProjection.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Persistence\NHibernate\Projections\SpecialProjections.cs" />
     <Compile Include="Persistence\NHibernate\Projections\ToHierarchyIdProjection.cs" />
     <Compile Include="Persistence\NHibernate\Projections\ToStringMethodProjection.cs" />
+    <Compile Include="Persistence\NHibernate\QueryHintInterceptor.cs" />
     <Compile Include="Persistence\NHibernate\SessionFactory.cs" />
     <Compile Include="Persistence\NHibernate\Type\SqlHierarchyIdType.cs" />
     <Compile Include="Persistence\NHibernate\ThreadSessionManager.cs" />

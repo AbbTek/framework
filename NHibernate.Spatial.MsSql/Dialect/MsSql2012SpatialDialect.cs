@@ -650,16 +650,16 @@ namespace NHibernate.Spatial.Dialect
 			get { return ";"; }
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="queryString"></param>
-		/// <param name="offset"></param>
-		/// <param name="limit"></param>
-		/// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="queryString"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
         public override SqlString GetLimitString(SqlString queryString, SqlString offset, SqlString limit)
-		{
-			return new MsSqlFixedDialectQueryPager(queryString).PageBy(offset, limit);
-		}
+        {
+            return new MsSqlFixedDialectQueryPager(queryString).PageBy(offset, limit);
+        }
 	}
 }
