@@ -99,6 +99,25 @@ namespace Simplelabs.Framework.Persistence.NHibernate
         }
 
         /// <summary>
+        /// ISessionFactory actual
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static ISessionFactory GetSessionFactory(string name)
+        {
+            return managers[name].GetSessionFactory();
+        }
+
+        /// <summary>
+        /// ISessionFactory Actual
+        /// </summary>
+        /// <returns></returns>
+        public static ISessionFactory GetSessionFactory()
+        {
+            return GetSessionFactory(defaultSession);
+        }
+
+        /// <summary>
         /// Obtiene la configuración de NHibernate para la sesión por defecto
         /// </summary>
         /// <returns></returns>

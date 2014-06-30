@@ -98,5 +98,13 @@ namespace Simplelabs.Framework.Persistence.NHibernate
         /// Cierra la sesión
         /// </summary>
         public abstract void CloseSession();
+        /// <summary>
+        /// Obtiene ISessionFactory
+        /// </summary>
+        /// <returns></returns>
+        public ISessionFactory GetSessionFactory()
+        {
+            return this.sessionFactory;
+        }
     }
 }
