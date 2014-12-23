@@ -25,7 +25,8 @@ namespace Simplelabs.Framework.Persistence.NHibernate.Projections
         {
             var loc = position * GetHashCode();
             var val = _projection.ToSqlString(criteria, loc, criteriaQuery, enabledFilters);
-            val = StringHelper.RemoveAsAliasesFromSql(val);
+
+            val = val.Substring(0, val.LastIndexOfCaseInsensitive(" as ")); //StringHelper.RemoveAsAliasesFromSql(val);
 
             var ret = new SqlStringBuilder()
                 .Add(val)
